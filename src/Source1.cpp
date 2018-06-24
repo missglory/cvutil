@@ -2,11 +2,20 @@
 #include "opencv2/opencv.hpp"
 #include <vector>
 #include "utils.h"
-
+#include "mainwindow.h"
+#include <QtWidgets/QApplication>
 const int W = 800;
 const int H = 500;
 
-int main(void) {
+int main(int argc, char *argv[]) {
+	QApplication app(argc, argv);
+	MainWindow mainWindow;
+	mainWindow.show();
+	return app.exec();
+}
+
+
+void cvr() {
 	Timer timer;
 	timer.start();
 	cv::Mat testimg = cv::imread("../res/1.jpg", CV_LOAD_IMAGE_UNCHANGED);
@@ -29,8 +38,8 @@ int main(void) {
 	Timer timer2; timer2.start();
 	std::vector<cv::Vec3f> circles;
 	HoughCircles(grayimg, circles, CV_HOUGH_GRADIENT, 1, grayimg.rows / 10, 200, 20, grayimg.rows / 50, grayimg.rows);
-	
-	
+
+
 
 	cv::Mat sobelx;
 	cv::Sobel(grayimg, sobelx, CV_32F, 1, 0);
@@ -48,15 +57,15 @@ int main(void) {
 	imshow("sobel", draw);
 
 
-	for( size_t i = 0; i < circles.size(); i++ )
+	for (size_t i = 0; i < circles.size(); i++)
 	{
 		cv::Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
 		int radius = cvRound(circles[i][2]);
 		// circle center
-		cv::circle( testimg, center, 3, cv::Scalar(0,255,0), -1, 8, 0 );
+		cv::circle(testimg, center, 3, cv::Scalar(0, 255, 0), -1, 8, 0);
 		// circle outline
-		cv::circle( testimg, center, radius, cv::Scalar(0,0,255), 3, 8, 0 );
-	}	
+		cv::circle(testimg, center, radius, cv::Scalar(0, 0, 255), 3, 8, 0);
+	}
 	cv::imshow("color", testimg);
 	cv::imshow("gs", grayimg);
 	timer.end();
