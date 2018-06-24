@@ -9,6 +9,7 @@ message("BIN DIR " ${CMAKE_CURRENT_BINARY_DIR})
 
 set (CMAKE_INCLUDE_CURRENT_DIR ON)
 set (CMAKE_AUTOMOC ON)
+set (CMAKE_AUTOUIC ON)
 
 set (CMAKE_PREFIX_PATH "C:\\Qtvc\\5.11.1\\msvc2017_64\\")
 #set (CMAKE_INSTALL_PREFIX C:/Qtvc/5.11.1/msvc2017_64/bin)
@@ -19,12 +20,15 @@ set (SRC
 	src/Source1.cpp
 	src/mainwindow.cpp
 	src/Worker.cpp
+	#src/mainwidget.cpp
 	)
 
 set (HEADERS src/mainwindow.h
 	src/utils.h
-	src/Worker.h)
-set (UI src/mainwindow.ui)
+	src/Worker.h
+	)#src/mainwidget.h)
+set (UI src/mainwindow.ui
+	)#src/mainwidget.ui)
 
 message ("SRC " ${SRC})
 

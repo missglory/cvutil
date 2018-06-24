@@ -1,6 +1,9 @@
 #pragma once
 #include <QtWidgets/QApplication>
 #include <QtCore/QString>
+#include <QtGui/QImage>
+#include "opencv2/opencv.hpp"
+
 
 class Worker: public QObject {
 	Q_OBJECT
@@ -18,14 +21,17 @@ private:
 
 	bool binaryThresholdEnabled;
 	int binaryThreshold;
-signals:
-	void sendFrame(QImage& frameProcessed);
-public slots:
-	void receiveGrabFrame();
-	void receiveSetup(const int device);
-	void receiveToggleStream();
 
-	void receiveEnableThreshold();
+
+signals:
+	void sendFrame(const QImage& frameProcessed);
+	void sendFrame2(const QImage& frameProcessed);
+public slots:
+	void receiveGrabFrame(const QString& fileName);
+	void receiveSetup(const int device);
+	//void receiveToggleStream();
+
+	//void receiveEnableThreshold();
 	void receiveBinaryThreshold(int threshold);
 
 };

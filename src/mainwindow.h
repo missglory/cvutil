@@ -6,7 +6,9 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <QtCore/QThread>
 #include <QtWidgets/QWidget>
-
+#include <QtWidgets/QFileDialog>
+#include "Worker.h"
+#include <QtGui/QCloseEvent>
 namespace Ui {
 class MainWindow;
 }
@@ -21,14 +23,18 @@ public:
 private:
     Ui::MainWindow *ui;
 	QThread* thread;
-	//Worker* worker;
+	Worker* worker;
 
 	void setup();
+	void closeEvent(QCloseEvent *bar);
 signals:
 	void sendSetup(const int device);
+	void requestFrame(const QString& fileName);
 
 private slots:
-	void receiveFrame(QImage& frame);
+	void receiveFrame(const QImage& frame);
+	void receiveFrame2(const QImage& frame);
+	void onOpenButtonClicked();
 };
 
 #endif // MAINWINDOW_H
