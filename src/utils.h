@@ -4,8 +4,18 @@
 #include "opencv2/opencv.hpp"
 #include <QtGui/QImage>
 #include <iostream>
+#include <sstream>
 
-#define dbgcout(x) std::cout << (x) << "\n"
+inline void LogCall(const char* func, const char* file, int line, FILE* fd = NULL) {
+	std::stringstream ss;
+	ss << "[FILE]" << file << ":(line) " << line << "\n";
+	if (fd) fprintf(fd, ss.str().c_str());
+	else fprintf(stdout, ss.str().c_str());
+}
+
+#define dbgcout(x) std::cout << (x); \
+	LogCall(#x, __FILE__, __LINE__)
+
 
 #if defined(unix) || defined(__unix) || defined (__unix__) || defined(__APPLE__)
 #define _PREDEF_UNIX
@@ -36,6 +46,12 @@ struct Timer {
 		float ms = duration.count() * 1000.0f;
 		std::cout << "duration " << ms << "\n";
 	}
+
+	float elapsed() {
+		duration = std::chrono::high_resolution_clock::now() - startp;
+		float ms = duration.count() * 1000.0f;
+		return ms;
+	}
 };
 
 
@@ -46,8 +62,8 @@ namespace Utils {
 		return cv::Mat(img.height(), img.width(),
 			format, img.bits(), img.bytesPerLine());
 	}
-	inline QImage mat_to_qimage(cv::Mat img) {
-		return QImage((const unsigned char*)img.data, img.cols, img.rows, QImage::Format_Indexed8);
+	inline QImage mat_to_qimage(cv::Mat img, QImage::Format format) {
+		return QImage((const unsigned char*)img.data, img.cols, img.rows, format);
 	}
 }
 

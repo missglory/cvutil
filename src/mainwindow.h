@@ -35,6 +35,8 @@ private slots:
 	void receiveFrame(const QImage& frame);
 	void receiveFrame2(const QImage& frame);
 	void onOpenButtonClicked();
+	void receiveNumCircles(const int num);
+	void receiveProcessTime(const float time);
 };
 
 #endif // MAINWINDOW_H

@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "Worker.h"
-
+#include "utils.h"
 
 MainWindow::MainWindow(QWidget *parent):
 	QWidget(parent),
@@ -37,9 +37,11 @@ void MainWindow::setup() {
 	connect(w, SIGNAL(sendFrame2(const QImage&)), this, SLOT(receiveFrame2(const QImage&)));
 	connect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(onOpenButtonClicked()));
 	connect(this, SIGNAL(requestFrame(const QString&)), w, SLOT(receiveGrabFrame(const QString&)));
+	connect(w, SIGNAL(sendNumCircles(const int)), this, SLOT(receiveNumCircles(const int)));
+	connect(w, SIGNAL(sendProcessTime(const float)), this, SLOT(receiveProcessTime(const float)));
 	worker = w;
 	thread->start();
-	worker->signalSendFrame("../res/1.jpg");
+	worker->signalSendFrame("../res/test.jpg");
 	emit sendSetup(0);
 	//thread.run();
 }
@@ -51,6 +53,18 @@ void MainWindow::receiveFrame(const QImage& frame)
 	ui->labelView->setPixmap(QPixmap::fromImage(frame).scaled(frame.width()/4, frame.height()/4, Qt::KeepAspectRatio));
 	//ui->labelView->setPixmap(QPixmap::fromImage(frame).scaledToHeight(ui->labelView->height(), Qt::SmoothTransformation));
 	
+}
+
+void MainWindow::receiveProcessTime(const float time) {
+	//dbgcout("time ");
+	dbgcout(time);
+	ui->time->setText(QString::number(time));
+}
+
+
+void MainWindow::receiveNumCircles(const int num) {
+	const QString text = QString::number(num);
+	ui->numberCircles->setText(text);
 }
 
 void MainWindow::receiveFrame2(const QImage& frame) {

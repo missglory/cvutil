@@ -19,12 +19,12 @@ void Worker::process() {
 	timer.start();
 	
 	cvtColor(frameOriginal, frameProcessed, CV_BGR2GRAY);
-	GaussianBlur(frameProcessed, frameProcessed, cv::Size(9, 9), 2, 2);
+	GaussianBlur(frameProcessed, frameProcessed, cv::Size(15, 15), 2, 2);
 
 	Timer timer2; 
 	timer2.start();
 	std::vector<cv::Vec3f> circles;
-	HoughCircles(frameProcessed, circles, CV_HOUGH_GRADIENT, 1, frameProcessed.rows / 10, 200, 20, frameProcessed.rows / 50, frameProcessed.rows);
+	HoughCircles(frameProcessed, circles, CV_HOUGH_GRADIENT, 1, 1, 200, 99, frameOriginal.rows / 200, frameOriginal.cols);
 
 	cv::Mat sobelx;
 	cv::Sobel(frameProcessed, sobelx, CV_32F, 1, 0);
@@ -36,17 +36,20 @@ void Worker::process() {
 	cv::Mat draw;
 	sobelx.convertTo(draw, CV_8U, 255.0 / (maxVal - minVal), -minVal * 255.0 / (maxVal - minVal));
 
+	emit sendNumCircles(circles.size());
+
 	for (size_t i = 0; i < circles.size(); i++)
 	{
 		cv::Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
 		int radius = cvRound(circles[i][2]);
 		// circle center
-		cv::circle(frameProcessed, center, 3, cv::Scalar(0, 255, 0), -1, 8, 0);
+		cv::circle(frameOriginal, center, 3, cv::Scalar(0, 255, 0), -1, 8, 0);
 		// circle outline
-		cv::circle(frameProcessed, center, radius, cv::Scalar(0, 0, 255), 3, 8, 0);
+		cv::circle(frameOriginal, center, radius, cv::Scalar(0, 0, 255), 3, 8, 0);
 	}
 	timer.end();
-	timer2.end();
+	//timer2.end();
+	emit sendProcessTime(timer.elapsed());
 	//cv::imshow(grayimg);
 	//cv::imshow()
 }
@@ -57,25 +60,22 @@ void Worker::signalSendFrame(const QString& fileName) {
 	//frameOriginal = Utils::qimage_to_mat_ref(output, QImage::Format_Indexed8);
 	frameOriginal = cv::imread(fileName.toStdString());
 	
-	emit sendFrame(Utils::mat_to_qimage(frameOriginal));
+	//emit sendFrame(Utils::mat_to_qimage(frameOriginal));
 	process();
-	//QImage output2((const unsigned char*)frameProcessed.data, frameProcessed.cols, frameProcessed.rows, QImage::Format_Indexed8);
-	emit sendFrame2(Utils::mat_to_qimage(frameProcessed));
+	emit sendFrame(Utils::mat_to_qimage(frameOriginal, QImage::Format_RGB888));
+	emit sendFrame2(Utils::mat_to_qimage(frameProcessed, QImage::Format_Indexed8));
 }
 
 
 
 void Worker::receiveGrabFrame(const QString& fileName) {
-	dbgcout("receive Grab frame ");
+	//dbgcout("receive Grab frame ");
 	dbgcout(fileName.toStdString());
 	frameOriginal = cv::imread(fileName.toStdString());
-	QImage output((const unsigned char*)frameOriginal.data, frameOriginal.cols, frameOriginal.rows, QImage::Format_Indexed8);
-	emit sendFrame(output);
-
+	//emit sendFrame(QImage((const unsigned char*)frameOriginal.data, fo.cols, img.rows, QImage::Format_Indexed8));
 	process();
-
-	QImage output2((const unsigned char*)frameProcessed.data, frameProcessed.cols, frameProcessed.rows, QImage::Format_Indexed8);
-	emit sendFrame2(output2);
+	emit sendFrame(Utils::mat_to_qimage(frameOriginal, QImage::Format_RGB888));
+	emit sendFrame2(Utils::mat_to_qimage(frameProcessed, QImage::Format_Indexed8));
 }
 
 void Worker::receiveSetup(const int device) {

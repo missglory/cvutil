@@ -26,6 +26,8 @@ private:
 signals:
 	void sendFrame(const QImage& frameProcessed);
 	void sendFrame2(const QImage& frameProcessed);
+	void sendNumCircles(const int num);
+	void sendProcessTime(const float time);
 public slots:
 	void receiveGrabFrame(const QString& fileName);
 	void receiveSetup(const int device);
