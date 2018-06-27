@@ -4,7 +4,6 @@
 #include "mainwindow.h"
 #include <QtWidgets/QApplication>
 
-
 const int W = 800;
 const int H = 500;
 

@@ -30,13 +30,14 @@ private:
 signals:
 	void sendSetup(const int device);
 	void requestFrame(const QString& fileName);
-
+	void sendRequestFrame(const int id, const int format);
 private slots:
 	void receiveFrame(const QImage& frame);
-	void receiveFrame2(const QImage& frame);
 	void onOpenButtonClicked();
 	void receiveNumCircles(const int num);
 	void receiveProcessTime(const float time);
+	void onButtonPrevClicked();
+	void onButtonNextClicked();
 };
 
 #endif // MAINWINDOW_H

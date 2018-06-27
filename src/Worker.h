@@ -2,7 +2,7 @@
 #include <QtWidgets/QApplication>
 #include <QtCore/QString>
 #include <QtGui/QImage>
-#include "opencv2/opencv.hpp"
+#include <opencv2/opencv.hpp>
 
 
 class Worker: public QObject {
@@ -12,8 +12,7 @@ public:
 	~Worker();
 	void signalSendFrame(const QString& fileName);
 private:
-	cv::Mat frameOriginal;
-	cv::Mat frameProcessed;
+	std::vector<cv::Mat> frames;
 
 	void process();
 
@@ -22,10 +21,13 @@ private:
 	bool binaryThresholdEnabled;
 	int binaryThreshold;
 
+	void takeDft(cv::Mat& source, cv::Mat& dest);
+	void Worker::showDft(cv::Mat& source, cv::Mat& magnitude);
+	void recenterDFT(cv::Mat& source);
+	void invertDft(cv::Mat& source, cv::Mat& dest);
 
 signals:
 	void sendFrame(const QImage& frameProcessed);
-	void sendFrame2(const QImage& frameProcessed);
 	void sendNumCircles(const int num);
 	void sendProcessTime(const float time);
 public slots:
@@ -35,5 +37,6 @@ public slots:
 
 	//void receiveEnableThreshold();
 	void receiveBinaryThreshold(int threshold);
+	void receiveRequestFrame(const int id, const int);
 
 };
