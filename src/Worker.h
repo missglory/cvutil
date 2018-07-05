@@ -13,6 +13,7 @@ public:
 	void signalSendFrame(const QString& fileName);
 private:
 	std::vector<cv::Mat> frames;
+	cv::Mat hist;
 
 	void process();
 
@@ -26,6 +27,7 @@ private:
 	void recenterDFT(cv::Mat& source);
 	void invertDft(cv::Mat& source, cv::Mat& dest);
 
+	void getHist(cv::Mat1b const& src_gray);
 signals:
 	void sendFrame(const QImage& frameProcessed);
 	void sendNumCircles(const int num);
