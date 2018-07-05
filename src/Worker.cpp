@@ -8,7 +8,8 @@ Worker::Worker(QObject *parent) :
 	status(false),
 	binaryThresholdEnabled(false),
 	binaryThreshold(127),
-	frames(7, cv::Mat())
+	frames(7, cv::Mat()),
+	numCircles(0)
 {
 }
 
@@ -17,7 +18,7 @@ Worker::~Worker()
 }
 
 void Worker::getHist(cv::Mat1b const& src_gray) {
-	int bins = 8;
+	int bins = 256;
 	int histSize[] = { bins };
 	int channels[] = { 0 };
 	float rangeGray[] = {0,255};
@@ -36,29 +37,43 @@ void Worker::getHist(cv::Mat1b const& src_gray) {
 	);
 
 
-	int hist_w = 512; int hist_h = 400;
+	int hist_w = 255; int hist_h = 255;
 	int bin_w = cvRound((double)hist_w / bins);
 
 	cv::Mat histImage(hist_h, hist_w, CV_8UC3, cv::Scalar(0, 0, 0));
 
 	cv::normalize(hist, hist, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat());
-	
+
+	double maxVal, minVal;
+	cv::Point maxLoc, minLoc;
+	cv::minMaxLoc(hist, &minVal, &maxVal, &minLoc, &maxLoc);
+	double maxVal2 = 0;
+	cv::Point maxLoc2;
+	uchar* histdata = (uchar*)hist.data;
+	for (int i = 0; i < 8; i++) {
+		std::cout << *(histdata + i) << " ";
+	}
+	std::cout << "\n";
+	int range = 10;
+	cv::Mat nearmax;
+	nearmax = hist.rowRange(maxLoc.y - range, maxLoc.y + range);
+
+	nearmax = cv::Scalar(0, 0, 0);
+
+	cv::minMaxLoc(hist, &minVal, &maxVal, &minLoc, &histPeakLoc);
+
 	for (int i = 1; i < bins; i++)
 	{
 		line(histImage, cv::Point(bin_w*(i - 1), hist_h - cvRound(hist.at<float>(i - 1))),
 			cv::Point(bin_w*(i), hist_h - cvRound(hist.at<float>(i))),
 			cv::Scalar(255, 255, 255), 2, 8, 0);
 	}
-	double maxVal = 0;
-	int maxLoc;
-	cv::minMaxLoc(&hist, 0, &maxVal, 0, &maxLoc);
-	double maxVal2 = 0;
-	int maxLoc2;
 
-	cv::minMaxLoc(hist, 0, &maxVal2, 0, &maxLoc2);
+	for (int i = 0; i < 8; i++) {
+		std::cout << *(histdata + i) << " ";
+	}
+	cv::minMaxLoc(hist, &minVal, &maxVal2, &minLoc, &maxLoc2);
 
-	cv::namedWindow("hist", CV_WINDOW_FREERATIO);
-	cv::imshow("hist", histImage);
 }
 
 void Worker::takeDft(cv::Mat& source, cv::Mat& dest) {
@@ -115,26 +130,18 @@ void Worker::process() {
 	Timer timer2; 
 	timer2.start();
 	std::vector<cv::Vec3f> circles;
-	HoughCircles(frames[1], circles, CV_HOUGH_GRADIENT, 1, 1, 200, 99, frames[0].rows / 20, frames[0].cols);
-
-	cv::Mat sobelx;
-	cv::Sobel(frames[1], sobelx, CV_32F, 1, 0);
-
-	double minVal, maxVal;
-	cv::minMaxLoc(sobelx, &minVal, &maxVal); //find minimum and maximum intensities
-	std::cout << "minVal : " << minVal << "\n" << "maxVal : " << maxVal << "\n";
-
-	cv::Mat draw;
-	sobelx.convertTo(draw, CV_8U, 255.0 / (maxVal - minVal), -minVal * 255.0 / (maxVal - minVal));
-
-	emit sendNumCircles(circles.size());
-
+	
+	
 	cv::imshow("original", frames[1]);
 	
 	GaussianBlur(frames[2], frames[2], cv::Size(15, 15), 2, 2);
 	frames[3] = frames[2].clone();
 	
 	getHist(frames[1]);
+
+	
+
+	drawEllipses(frames[1], histPeakLoc.y - 20, 700);
 
 	for (size_t i = 0; i < circles.size(); i++)
 	{
@@ -148,13 +155,50 @@ void Worker::process() {
 	timer.end();
 	//timer2.end();
 	emit sendProcessTime(timer.elapsed());
+	emit sendNumCircles(numCircles);
+
 	//cv::imshow(grayimg);
 	//cv::imshow()
 
+}
 
+void Worker::drawEllipses(cv::Mat& src, double threshold, int minContourSize) {
+	std::vector<std::vector<cv::Point> > contours;
+	std::vector<cv::Vec4i> hierarchy;
+	cv::Mat threshold_output;
+	cv::threshold(src, threshold_output, threshold, 255, cv::THRESH_BINARY);
+	cv::findContours(threshold_output, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0));
+	std::vector<cv::RotatedRect> minRect(contours.size());
+	std::vector<cv::RotatedRect> minEllipse(contours.size());
+	std::vector<int> contourIndices;
+	for (int i = 0; i < contours.size(); i++)
+	{
+		if (contours[i].size() > minContourSize)
+		{
+			contourIndices.push_back(i);
+			minRect[i] = cv::minAreaRect(cv::Mat(contours[i]));
+			minEllipse[i] = cv::fitEllipse(cv::Mat(contours[i]));
+		}
+	}
 
+	cv::RNG rng(12345);
 
+	cv::Mat drawing = cv::Mat::zeros(threshold_output.size(), CV_8UC3);
+	for (int ind = 0; ind < contourIndices.size(); ind++)
+	{
+		int i = contourIndices[ind];
+		cv::Scalar color = cv::Scalar(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
+		cv::drawContours(drawing, contours, i, color, 1, 8, std::vector<cv::Vec4i>(), 0, cv::Point());
+		cv::ellipse(drawing, minEllipse[i], color, 2, 8);
+		// rotated rectangle
+		cv::Point2f rect_points[4]; minRect[i].points(rect_points);
+		for (int j = 0; j < 4; j++)
+			cv::line(drawing, rect_points[j], rect_points[(j + 1) % 4], color, 1, 8);
+	}
 
+	/// Show in a window
+	cv::namedWindow("Contours", CV_WINDOW_AUTOSIZE);
+	cv::imshow("Contours", drawing);
 }
 
 
