@@ -140,8 +140,8 @@ void Worker::process() {
 	getHist(frames[1]);
 
 	
-
-	drawEllipses(frames[1], histPeakLoc.y - 20, 700);
+	drawEllipses(frames[1], histPeakLoc.y - 20, 700, true);
+	drawEllipses(frames[1], histPeakLoc.y + 30, 100, false);
 
 	for (size_t i = 0; i < circles.size(); i++)
 	{
@@ -162,7 +162,7 @@ void Worker::process() {
 
 }
 
-void Worker::drawEllipses(cv::Mat& src, double threshold, int minContourSize) {
+void Worker::drawEllipses(cv::Mat& src, double threshold, int minContourSize, bool eraseDrawing) {
 	std::vector<std::vector<cv::Point> > contours;
 	std::vector<cv::Vec4i> hierarchy;
 	cv::Mat threshold_output;
@@ -171,6 +171,10 @@ void Worker::drawEllipses(cv::Mat& src, double threshold, int minContourSize) {
 	std::vector<cv::RotatedRect> minRect(contours.size());
 	std::vector<cv::RotatedRect> minEllipse(contours.size());
 	std::vector<int> contourIndices;
+	std::vector<std::vector<cv::Point> >hulls(contours.size());
+	
+	
+
 	for (int i = 0; i < contours.size(); i++)
 	{
 		if (contours[i].size() > minContourSize)
@@ -178,18 +182,29 @@ void Worker::drawEllipses(cv::Mat& src, double threshold, int minContourSize) {
 			contourIndices.push_back(i);
 			minRect[i] = cv::minAreaRect(cv::Mat(contours[i]));
 			minEllipse[i] = cv::fitEllipse(cv::Mat(contours[i]));
+
+			cv::convexHull(contours[i], hulls[i]);
 		}
 	}
 
 	cv::RNG rng(12345);
 
-	cv::Mat drawing = cv::Mat::zeros(threshold_output.size(), CV_8UC3);
+
+	if (eraseDrawing)
+		//drawing = cv::Mat::zeros(threshold_output.size(), CV_8UC3);
+		drawing = frames[0].clone();
+
+	for (size_t i = 0; i < contours.size(); i++)
+	{
+	}
+
 	for (int ind = 0; ind < contourIndices.size(); ind++)
 	{
 		int i = contourIndices[ind];
+	
 		cv::Scalar color = cv::Scalar(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
-		cv::drawContours(drawing, contours, i, color, 1, 8, std::vector<cv::Vec4i>(), 0, cv::Point());
-		cv::ellipse(drawing, minEllipse[i], color, 2, 8);
+		cv::drawContours(drawing, hulls, i, color, 2, 8, std::vector<cv::Vec4i>(), 0, cv::Point());
+		//cv::ellipse(drawing, minEllipse[i], color, 2, 8);
 		// rotated rectangle
 		cv::Point2f rect_points[4]; minRect[i].points(rect_points);
 		for (int j = 0; j < 4; j++)

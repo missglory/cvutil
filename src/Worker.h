@@ -14,6 +14,7 @@ public:
 private:
 	std::vector<cv::Mat> frames;
 	cv::Mat hist;
+	cv::Mat drawing;
 	cv::Point histPeakLoc;
 	int numCircles;
 
@@ -31,7 +32,7 @@ private:
 
 	void getHist(cv::Mat1b const& src_gray);
 
-	void drawEllipses(cv::Mat& src, double threshold, int minContourSize = 200);
+	void drawEllipses(cv::Mat& src, double threshold, int minContourSize = 200, bool eraseDrawing = 1);
 signals:
 	void sendFrame(const QImage& frameProcessed);
 	void sendNumCircles(const int num);
