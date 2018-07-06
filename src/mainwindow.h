@@ -28,16 +28,15 @@ private:
 	void setup();
 	void closeEvent(QCloseEvent *bar);
 signals:
-	void sendSetup(const int device);
 	void requestFrame(const QString& fileName);
-	void sendRequestFrame(const int id, const int format);
 private slots:
 	void receiveFrame(const QImage& frame);
 	void onOpenButtonClicked();
-	void receiveNumCircles(const int num);
 	void receiveProcessTime(const float time);
-	void onButtonPrevClicked();
-	void onButtonNextClicked();
+	void receiveDiameter(const double d, const int order);
+	void receiveCenter(const float x, const float y, const int order);
+	void receiveCenterDist(const double d);
+	void receiveVariance(const double d);
 };
 
 #endif // MAINWINDOW_H

@@ -5,26 +5,27 @@
 #include "opencv2/highgui/highgui.hpp"
 Worker::Worker(QObject *parent) :
 	QObject(parent),
-	status(false),
-	binaryThresholdEnabled(false),
-	binaryThreshold(127),
-	frames(7, cv::Mat()),
-	numCircles(0)
-{
-}
+	hulls(2) {}
+Worker::~Worker(){}
 
-Worker::~Worker()
-{
-}
+#define IMSHOWS
 
-void Worker::getHist(cv::Mat1b const& src_gray) {
+#ifdef IMSHOWS
+#define imshowdef(x) cv::imshow(#x, (x))
+#define imshownamed(x, s) cv::imshow((s), (x))
+#else
+#define imshowdef(x)
+#define imshownamed(x, s)
+#endif
+
+void Worker::getHistPeaks(cv::UMat const& src_gray) {
 	int bins = 256;
 	int histSize[] = { bins };
 	int channels[] = { 0 };
 	float rangeGray[] = {0,255};
 	const float* ranges[] = { rangeGray };
 	cv::calcHist(
-		&src_gray,
+		&src_gray.getMat(cv::ACCESS_RW),
 		1, // number of images channels
 		channels, //0,
 		cv::Mat(), // no masks, an empty Mat 
@@ -35,222 +36,153 @@ void Worker::getHist(cv::Mat1b const& src_gray) {
 		true, // uniform 
 		false // not accumulate
 	);
+	
+	visualizeHist(hist, "histor");
 
-
-	int hist_w = 255; int hist_h = 255;
-	int bin_w = cvRound((double)hist_w / bins);
-
-	cv::Mat histImage(hist_h, hist_w, CV_8UC3, cv::Scalar(0, 0, 0));
-
-	cv::normalize(hist, hist, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat());
-
-	double maxVal, minVal;
-	cv::Point maxLoc, minLoc;
-	cv::minMaxLoc(hist, &minVal, &maxVal, &minLoc, &maxLoc);
-	double maxVal2 = 0;
-	cv::Point maxLoc2;
-	uchar* histdata = (uchar*)hist.data;
-	for (int i = 0; i < 8; i++) {
-		std::cout << *(histdata + i) << " ";
+	double maxVal;
+	for (size_t i = 0; i < histPeaksCount; i++)
+	{
+		cv::minMaxLoc(hist, NULL, &histPeaks[i].value, NULL, &histPeaks[i].pos);
+		if (i == histPeaksCount - 1)
+			break;
+		int range = 10;
+		int low_bound = std::max(0, histPeaks[i].pos.y - range);
+		int high_bound = std::min(histPeaks[i].pos.y + range, hist.rows);
+		cv::Mat nearmax = hist.rowRange(low_bound, high_bound);
+		nearmax = cv::Scalar(0, 0, 0);
+		visualizeHist(hist, "hist" + std::to_string(i));
 	}
-	std::cout << "\n";
-	int range = 10;
-	cv::Mat nearmax;
-	nearmax = hist.rowRange(maxLoc.y - range, maxLoc.y + range);
+	std::sort(histPeaks, histPeaks + histPeaksCount, [](const HistPeak& a, const HistPeak& b) {
+		return a.pos.y < b.pos.y;
+	});
+}
 
-	nearmax = cv::Scalar(0, 0, 0);
+void Worker::process() {
+	getHistPeaks(frames[1]);
+	drawHulls(frames[1], histPeaks[0].pos.y + 15, histPeaks[1].pos.y + 5, 700, 0, true);
+	calculate();
+}
 
-	cv::minMaxLoc(hist, &minVal, &maxVal, &minLoc, &histPeakLoc);
 
-	for (int i = 1; i < bins; i++)
+#ifdef IMSHOWS
+void Worker::visualizeHist(cv::Mat& hist, const std::string& window) {
+	int histSize = 256;
+	int hist_w = 512; int hist_h = 400;
+	int bin_w = cvRound((double)hist_w / histSize);
+	cv::Mat histImage(hist_h, hist_w, CV_8UC3, cv::Scalar(0, 0, 0));
+	cv::normalize(hist, hist, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat());
+	for (int i = 1; i < histSize; i++)
 	{
 		line(histImage, cv::Point(bin_w*(i - 1), hist_h - cvRound(hist.at<float>(i - 1))),
 			cv::Point(bin_w*(i), hist_h - cvRound(hist.at<float>(i))),
 			cv::Scalar(255, 255, 255), 2, 8, 0);
 	}
-
-	for (int i = 0; i < 8; i++) {
-		std::cout << *(histdata + i) << " ";
-	}
-	cv::minMaxLoc(hist, &minVal, &maxVal2, &minLoc, &maxLoc2);
-
+	imshownamed(histImage, window);
 }
+#else
+void Worker::visualizeHist(cv::Mat& hist, const std::string& window) {}
+#endif
 
-void Worker::takeDft(cv::Mat& source, cv::Mat& dest) {
-	
-	cv::Mat srcFloat;
-	source.convertTo(srcFloat, CV_32FC1, 1.0f / 255.0f);
-	cv::Mat origComplex[2] = { srcFloat, cv::Mat::zeros(srcFloat.size(), CV_32F) };
-	cv::Mat dftReady;
-	cv::merge(origComplex, 2, dftReady);
-	//cv::Mat dftOriginal;
-	cv::dft(dftReady, dest, cv::DftFlags::DFT_COMPLEX_OUTPUT);
-}
-
-void Worker::showDft(cv::Mat& source, cv::Mat& magnitude) {
-	cv::Mat splitArray[2] = { cv::Mat::zeros(source.size(), CV_32F), cv::Mat::zeros(source.size(), CV_32F) };
-	cv::split(source, splitArray);
-	cv::magnitude(splitArray[0], splitArray[1], magnitude);
-	magnitude += cv::Scalar::all(1);
-	cv::log(magnitude, magnitude);
-	cv::normalize(magnitude, magnitude, 0, 1, CV_MINMAX);
-}
-
-void Worker::invertDft(cv::Mat& source, cv::Mat& dest) {
-	cv::Mat invert;
-	cv::dft(source, invert, cv::DftFlags::DFT_INVERSE | cv::DftFlags::DFT_REAL_OUTPUT | cv::DftFlags::DFT_SCALE); 
-	dest = invert;
-}
-
-void Worker::recenterDFT(cv::Mat& source) {
-	int centerX = source.cols / 2;
-	int centerY = source.rows / 2;
-	cv::Mat quadrant1(source, cv::Rect(0, 0, centerX, centerY));
-	cv::Mat quadrant2(source, cv::Rect(centerX, 0, centerX, centerY));
-	cv::Mat quadrant3(source, cv::Rect(0, centerY, centerX, centerY));
-	cv::Mat quadrant4(source, cv::Rect(centerX, centerY, centerX, centerY));
-
-	cv::Mat swapMap;
-	quadrant1.copyTo(swapMap);
-	quadrant4.copyTo(quadrant1);
-	swapMap.copyTo(quadrant4);
-
-	quadrant2.copyTo(swapMap);
-	quadrant3.copyTo(quadrant2);
-	swapMap.copyTo(quadrant3);
-}
-
-void Worker::process() {
-	Timer timer;
-	timer.start();
-	
-	//cvtColor(frames[0], frames[1], CV_BGR2GRAY);
-	//GaussianBlur(frames[1], frames[1], cv::Size(15, 15), 2, 2);
-
-	Timer timer2; 
-	timer2.start();
-	std::vector<cv::Vec3f> circles;
-	
-	
-	cv::imshow("original", frames[1]);
-	
-	GaussianBlur(frames[2], frames[2], cv::Size(15, 15), 2, 2);
-	frames[3] = frames[2].clone();
-	
-	getHist(frames[1]);
-
-	
-	drawEllipses(frames[1], histPeakLoc.y - 20, 700, true);
-	drawEllipses(frames[1], histPeakLoc.y + 30, 100, false);
-
-	for (size_t i = 0; i < circles.size(); i++)
-	{
-		cv::Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
-		int radius = cvRound(circles[i][2]);
-		// circle center
-		cv::circle(frames[0], center, 3, cv::Scalar(0, 255, 0), -1, 8, 0);
-		// circle outline
-		cv::circle(frames[0], center, radius, cv::Scalar(0, 0, 255), 3, 8, 0);
-	}
-	timer.end();
-	//timer2.end();
-	emit sendProcessTime(timer.elapsed());
-	emit sendNumCircles(numCircles);
-
-	//cv::imshow(grayimg);
-	//cv::imshow()
-
-}
-
-void Worker::drawEllipses(cv::Mat& src, double threshold, int minContourSize, bool eraseDrawing) {
+void Worker::drawHulls(cv::UMat& src, double threshold, double threshold2, int minContourSize, int iteration, bool eraseDrawing) {
 	std::vector<std::vector<cv::Point> > contours;
 	std::vector<cv::Vec4i> hierarchy;
-	cv::Mat threshold_output;
-	cv::threshold(src, threshold_output, threshold, 255, cv::THRESH_BINARY);
-	cv::findContours(threshold_output, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0));
-	std::vector<cv::RotatedRect> minRect(contours.size());
-	std::vector<cv::RotatedRect> minEllipse(contours.size());
-	std::vector<int> contourIndices;
-	std::vector<std::vector<cv::Point> >hulls(contours.size());
+	cv::UMat threshold_output1, threshold_output2;
+	cv::threshold(src, threshold_output1, threshold, 255, cv::THRESH_BINARY);
+	cv::threshold(src, threshold_output2, threshold2, 255, cv::THRESH_BINARY);
 	
+	cv::findContours(threshold_output1, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0));
 	
-
-	for (int i = 0; i < contours.size(); i++)
-	{
-		if (contours[i].size() > minContourSize)
-		{
-			contourIndices.push_back(i);
-			minRect[i] = cv::minAreaRect(cv::Mat(contours[i]));
-			minEllipse[i] = cv::fitEllipse(cv::Mat(contours[i]));
-
-			cv::convexHull(contours[i], hulls[i]);
-		}
-	}
-
+	auto pair_tmp = Utils::findMostPoints(contours);
+	int maxContourSize = pair_tmp.first, maxCountourIdx = pair_tmp.second;
+	
+	cv::convexHull(contours[maxCountourIdx], hulls[0]);
 	cv::RNG rng(12345);
-
-
-	if (eraseDrawing)
-		//drawing = cv::Mat::zeros(threshold_output.size(), CV_8UC3);
-		drawing = frames[0].clone();
-
-	for (size_t i = 0; i < contours.size(); i++)
 	{
+		cv::Scalar color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
+		cv::drawContours(frames[0], hulls, 0, color, 2, 8, std::vector<cv::Vec4i>(), 0, cv::Point());
 	}
-
-	for (int ind = 0; ind < contourIndices.size(); ind++)
-	{
-		int i = contourIndices[ind];
+	minEllipse[0] = cv::fitEllipse(cv::Mat(hulls[0]));
+	int roiSize = 200;
+	cv::Point p1(minEllipse[0].center.x - roiSize, minEllipse[0].center.y - roiSize);
+	cv::Point p2(minEllipse[0].center.x + roiSize, minEllipse[0].center.y + roiSize);
+	cv::UMat roi(frames[1], cv::Rect(p1, p2));
+	getHistPeaks(roi);
+	imshowdef(roi);
+	cv::UMat roiThresh;
+	cv::threshold(roi, roiThresh, histPeaks[0].pos.y + 5, 255, cv::THRESH_BINARY);
+	imshowdef(roiThresh);
+	imshowdef(roi);
+	imshowdef(frames[1]);
+	contours.clear();
+	cv::findContours(roiThresh, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0));
 	
-		cv::Scalar color = cv::Scalar(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
-		cv::drawContours(drawing, hulls, i, color, 2, 8, std::vector<cv::Vec4i>(), 0, cv::Point());
-		//cv::ellipse(drawing, minEllipse[i], color, 2, 8);
-		// rotated rectangle
-		cv::Point2f rect_points[4]; minRect[i].points(rect_points);
-		for (int j = 0; j < 4; j++)
-			cv::line(drawing, rect_points[j], rect_points[(j + 1) % 4], color, 1, 8);
+	pair_tmp = Utils::findMostPoints(contours);
+	maxContourSize = pair_tmp.first;
+	maxCountourIdx = pair_tmp.second;
+	
+	cv::convexHull(contours[maxCountourIdx], hulls[1]);
+	minEllipse[1] = cv::fitEllipse(cv::Mat(hulls[1]));
+	minEllipse[1].center.x += p1.x;
+	minEllipse[1].center.y += p1.y;
+	{
+		cv::Scalar color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
+		cv::drawContours(frames[0], hulls, 1, color, 2, 8, std::vector<cv::Vec4i>(), 0, p1);
 	}
-
-	/// Show in a window
-	cv::namedWindow("Contours", CV_WINDOW_AUTOSIZE);
-	cv::imshow("Contours", drawing);
+	
+	getMask(minEllipse[0]);
 }
 
+void Worker::getMask(cv::RotatedRect& ellipse) {
+	cv::UMat mask(frames[0].rows, frames[0].cols, CV_8UC1, cv::Scalar::all(0));
+	cv::ellipse(mask, minEllipse[0], cv::Scalar::all(255), -1, 8);
+	cv::UMat mask2 = mask.clone();
+	cv::Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(15, 15));
+	cv::dilate(mask, mask2, kernel, cv::Point(-1, -1), 1, cv::BORDER_CONSTANT);
+	cv::blur(mask2, mask2, cv::Size(15, 15), cv::Point(-1, -1), cv::BORDER_CONSTANT);
+	cv::UMat maskdif;
+	cv::subtract(mask2, mask, maskdif);
+	imshowdef(maskdif);
+	cv::add(mask2, cv::UMat(mask.rows, mask.cols, CV_8UC1, cv::Scalar::all(50)), mask2);
+	mask2.convertTo(mask2, CV_32FC1, 1.f / 255);
+	cv::UMat masked(mask.rows, mask.cols, CV_32FC1, cv::Scalar::all(0));
+	frames[1].convertTo(frames[1], CV_32FC1, 1.f / 255);
 
-void Worker::signalSendFrame(const QString& fileName) {
-	//emit sendFrame(output);
-	//frames[0] = Utils::qimage_to_mat_ref(output, QImage::Format_Indexed8);
-	frames[0] = cv::imread(fileName.toStdString());
-	frames[1] = cv::imread(fileName.toStdString(), CV_LOAD_IMAGE_GRAYSCALE);
-
-	//emit sendFrame(Utils::mat_to_qimage(frames[0]));
-	process();
-//	emit sendFrame(Utils::mat_to_qimage(frames[0], QImage::Format_RGB888));
+	cv::multiply(frames[1], mask2, frames[1]);
+	//mask2 = mask2.mul(mask2, 255.f);
+	imshowdef(mask2);
+	imshowdef(frames[1]);
+	imshowdef(masked);
 }
 
+void Worker::calculate() {
+	Utils::Timer timervar;
+	timervar.start();
+	
+	std::vector<double> r(hulls[0].size());
+	double R = 0, V = 0;
+	for (size_t i = 0; i < hulls[0].size(); i++)
+	{
+		r[i] = cv::norm(hulls[0][i] - (cv::Point)minEllipse[0].center);
+		R += r[i];
+	}
+	emit sendVariance(Utils::countVariance(r));
+	timervar.end();
+	
+	for (int i = 0; i < 2; i++) {
+		emit sendCenter(minEllipse[i].center.x, minEllipse[i].center.y, i);	
+		cv::Size2f s = minEllipse[i].size;
+		emit sendDiameter(std::max(s.height, s.width), i);
+	}
+	emit sendCenterDist(cv::norm(minEllipse[0].center - minEllipse[1].center));
+}
 
 
 void Worker::receiveGrabFrame(const QString& fileName) {
-	//dbgcout("receive Grab frame ");
-	dbgcout(fileName.toStdString());
-	frames[0] = cv::imread(fileName.toStdString(), CV_LOAD_IMAGE_COLOR);
-	frames[1] = cv::imread(fileName.toStdString(), CV_LOAD_IMAGE_GRAYSCALE);
-
-	//emit sendFrame(QImage((const unsigned char*)frames[0].data, fo.cols, img.rows, QImage::Format_Indexed8));
+	frames[0] = cv::imread(fileName.toStdString(), CV_LOAD_IMAGE_COLOR).getUMat(cv::ACCESS_RW);
+	cv::cvtColor(frames[0], frames[1], CV_BGR2GRAY);
+	timer.start();
 	process();
-	//emit sendFrame(Utils::mat_to_qimage(frames[0], QImage::Format_Grayscale8));
-}
-
-void Worker::receiveSetup(const int device) {
-	
-}
-
-void Worker::receiveRequestFrame(const int id, const int format) {
-	if (id > 0 && id < frames.size())
-		emit sendFrame(Utils::mat_to_qimage(frames[id], (QImage::Format)format));
-}
-
-
-void Worker::receiveBinaryThreshold(int threshold) {
-	binaryThreshold = threshold;
+	timer.end();
+	emit sendProcessTime(timer.elapsed()); 
+	emit sendFrame(Utils::mat_to_qimage(frames[0].getMat(cv::ACCESS_RW), QImage::Format_RGB888));
 }

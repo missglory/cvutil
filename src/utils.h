@@ -30,9 +30,45 @@ inline void LogCall(const char* func, const char* file, int line, FILE* fd = NUL
         raise(SIGTRAP)
 #endif
 
+namespace Utils {
+	//cv::Mat qimage_to_mat_ref(QImage &img, QImage::Format format);
+	inline cv::Mat qimage_to_mat_ref(QImage &img, QImage::Format format)
+	{
+		return cv::Mat(img.height(), img.width(),
+			format, img.bits(), img.bytesPerLine());
+	}
+	inline QImage mat_to_qimage(cv::Mat img, QImage::Format format) {
+		if (format == QImage::Format_RGB888) {
+			return QImage((const unsigned char*)img.data, img.cols, img.rows, format).rgbSwapped();
+		}
+		return QImage((const unsigned char*)img.data, img.cols, img.rows, format);
+	}
+	struct Timer;
+	inline double countVariance(std::vector <double>& v) {
+		double sum = std::accumulate(std::begin(v), std::end(v), 0.0);
+		double m = sum / v.size();
+
+		double accum = 0.0;
+		std::for_each(std::begin(v), std::end(v), [&](const double d) {
+			accum += (d - m) * (d - m);
+		});
+		return accum / (v.size() - 1);
+	}
+	inline std::pair<int, int>findMostPoints(std::vector<std::vector<cv::Point> >& contours) {
+		int maxContourSize = 0, maxCountourIdx = 0;
+		for (size_t i = 0; i < contours.size(); i++)
+		{
+			if (contours[i].size() > maxContourSize) {
+				maxContourSize = contours[i].size();
+				maxCountourIdx = i;
+			}
+		}
+		return std::make_pair(maxContourSize, maxCountourIdx);
+	}
+}
 
 
-struct Timer {
+struct Utils::Timer {
 	std::chrono::time_point<std::chrono::steady_clock> startp, endp;
 	std::chrono::duration<float> duration;
 
@@ -55,17 +91,7 @@ struct Timer {
 };
 
 
-namespace Utils {
-	//cv::Mat qimage_to_mat_ref(QImage &img, QImage::Format format);
-	inline cv::Mat qimage_to_mat_ref(QImage &img, QImage::Format format)
-	{
-		return cv::Mat(img.height(), img.width(),
-			format, img.bits(), img.bytesPerLine());
-	}
-	inline QImage mat_to_qimage(cv::Mat img, QImage::Format format) {
-		return QImage((const unsigned char*)img.data, img.cols, img.rows, format);
-	}
-}
+
 
 
 
