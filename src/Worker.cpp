@@ -88,8 +88,9 @@ void Worker::drawHulls(cv::UMat& src, double threshold, double threshold2, int m
 	std::vector<cv::Vec4i> hierarchy;
 	cv::UMat threshold_output1, threshold_output2;
 	cv::threshold(src, threshold_output1, threshold, 255, cv::THRESH_BINARY);
-	cv::threshold(src, threshold_output2, threshold2, 255, cv::THRESH_BINARY);
 	
+	imshowdef(threshold_output1);
+
 	cv::findContours(threshold_output1, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0));
 	
 	auto pair_tmp = Utils::findMostPoints(contours);
@@ -102,9 +103,15 @@ void Worker::drawHulls(cv::UMat& src, double threshold, double threshold2, int m
 		cv::drawContours(frames[0], hulls, 0, color, 2, 8, std::vector<cv::Vec4i>(), 0, cv::Point());
 	}
 	minEllipse[0] = cv::fitEllipse(cv::Mat(hulls[0]));
+	getMask(minEllipse[0], threshold_output1);
+
+	getHistPeaks(frames[1]);
+//	cv::threshold()
+
 	int roiSize = 200;
 	cv::Point p1(minEllipse[0].center.x - roiSize, minEllipse[0].center.y - roiSize);
 	cv::Point p2(minEllipse[0].center.x + roiSize, minEllipse[0].center.y + roiSize);
+	
 	cv::UMat roi(frames[1], cv::Rect(p1, p2));
 	getHistPeaks(roi);
 	imshowdef(roi);
@@ -129,29 +136,23 @@ void Worker::drawHulls(cv::UMat& src, double threshold, double threshold2, int m
 		cv::drawContours(frames[0], hulls, 1, color, 2, 8, std::vector<cv::Vec4i>(), 0, p1);
 	}
 	
-	getMask(minEllipse[0]);
 }
 
-void Worker::getMask(cv::RotatedRect& ellipse) {
-	cv::UMat mask(frames[0].rows, frames[0].cols, CV_8UC1, cv::Scalar::all(0));
+void Worker::getMask(cv::RotatedRect& ellipse, cv::UMat& frameToApply) {
+	cv::UMat mask(frameToApply.rows, frameToApply.cols, CV_8UC1, cv::Scalar::all(0));
 	cv::ellipse(mask, minEllipse[0], cv::Scalar::all(255), -1, 8);
-	cv::UMat mask2 = mask.clone();
 	cv::Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(15, 15));
-	cv::dilate(mask, mask2, kernel, cv::Point(-1, -1), 1, cv::BORDER_CONSTANT);
-	cv::blur(mask2, mask2, cv::Size(15, 15), cv::Point(-1, -1), cv::BORDER_CONSTANT);
-	cv::UMat maskdif;
-	cv::subtract(mask2, mask, maskdif);
-	imshowdef(maskdif);
-	cv::add(mask2, cv::UMat(mask.rows, mask.cols, CV_8UC1, cv::Scalar::all(50)), mask2);
-	mask2.convertTo(mask2, CV_32FC1, 1.f / 255);
-	cv::UMat masked(mask.rows, mask.cols, CV_32FC1, cv::Scalar::all(0));
-	frames[1].convertTo(frames[1], CV_32FC1, 1.f / 255);
-
-	cv::multiply(frames[1], mask2, frames[1]);
+	cv::dilate(mask, mask, kernel, cv::Point(-1, -1), 1, cv::BORDER_CONSTANT);
+	cv::blur(mask, mask, cv::Size(25, 25), cv::Point(-1, -1), cv::BORDER_CONSTANT);
+	cv::add(mask, cv::UMat(mask.rows, mask.cols, CV_8UC1, cv::Scalar::all(30)), mask);
+	mask.convertTo(mask, CV_32FC1, 1.2f / 255);
+	frameToApply.convertTo(frameToApply, CV_32FC1, 1.f / 255);
+	imshownamed(frameToApply, "prevframes");
+	cv::multiply(frameToApply, mask, frameToApply);
+	cv::normalize(frameToApply, frameToApply, 0, 255, cv::NORM_MINMAX, CV_8UC1);
 	//mask2 = mask2.mul(mask2, 255.f);
-	imshowdef(mask2);
-	imshowdef(frames[1]);
-	imshowdef(masked);
+	imshowdef(mask);
+	imshowdef(frameToApply);
 }
 
 void Worker::calculate() {

@@ -33,7 +33,7 @@ private:
 	void drawHulls(cv::UMat& src, double threshold, double threshold2, int minContourSize = 200, int iteration = 0, bool eraseDrawing = 1);
 	void calculate();
 	void visualizeHist(cv::Mat& hist, const std::string& window);
-	void getMask(cv::RotatedRect& ellipse);
+	void getMask(cv::RotatedRect& ellipse, cv::UMat& frameToApply);
 signals:
 	void sendFrame(const QImage& frameProcessed);
 	void sendProcessTime(const float time);
