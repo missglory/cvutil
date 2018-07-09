@@ -14,10 +14,7 @@ Worker::~Worker(){}
 #define getmatrw getMat(cv::ACCESS_RW)
 
 
-
-
-#define IMSHOWS
-#define DRAWHIST
+//#define IMSHOWS
 
 #ifdef IMSHOWS
 #define imshowdef(x) cv::namedWindow((#x), CV_WINDOW_KEEPRATIO); cv::imshow(#x, (x))
@@ -46,9 +43,8 @@ void Worker::getHistPeaks(cv::UMat const& src_gray) {
 		false // not accumulate
 	);
 	
-	visualizeHist(hist, "histor");
+	visualizeHist(hist, "hist");
 
-	double maxVal;
 	for (size_t i = 0; i < histPeaksCount; i++)
 	{
 		cv::minMaxLoc(hist, NULL, &histPeaks[i].value, NULL, &histPeaks[i].pos);
@@ -69,7 +65,7 @@ void Worker::getHistPeaks(cv::UMat const& src_gray) {
 
 void Worker::process() {
 	getHistPeaks(frames[1]);
-	drawHulls(frames[1], (histPeaks[1].pos.y + histPeaks[0].pos.y) / 2, histPeaks[1].pos.y + 5, 700, 0, true);
+	drawHulls(frames[1], (histPeaks[1].pos.y + histPeaks[0].pos.y) / 2);
 }
 
 
@@ -92,68 +88,42 @@ void Worker::visualizeHist(cv::Mat& hist, const std::string& window) {
 void Worker::visualizeHist(cv::Mat& hist, const std::string& window) {}
 #endif
 
-void Worker::drawHulls(cv::UMat& src, double threshold, double threshold2, int minContourSize, int iteration, bool eraseDrawing) {
-	std::pair<int, int> pair_tmp;
-	int maxCountourIdx;
+void Worker::drawHulls(cv::UMat& src, double threshold) {
 	cv::RNG rng(12345);
-	imshowdef(frames[1]);
 	
-	cv::UMat srcClone = src.clone();
 	//cv::bilateralFilter(src, src, 10, 30, 10);
 	std::vector<std::vector<cv::Point> > contours;
 	std::vector<cv::Vec4i> hierarchy;
-	cv::UMat threshold_output1(frames[0].size(), CV_8UC1, cv::Scalar::all(0)), threshold_output2;
-	
-	cv::threshold(srcClone, threshold_output1, threshold, 255, cv::THRESH_BINARY);
+	cv::UMat threshold_output1(src.size(), CV_8UC1, cv::Scalar::all(0));
+	cv::threshold(src, threshold_output1, threshold, 255, cv::THRESH_BINARY);
 
-	
-	cv::UMat adaptive;
-	//cv::adaptiveThreshold(frames[1], adaptive, 255, )
-
-
-
-	contours.clear();
-	hierarchy.clear();
 	cv::findContours(threshold_output1, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0));
 	int maxContourIdx = Utils::findMostPointsIdx(contours);
 
 	minEllipse[0] = cv::fitEllipse(cv::Mat(contours[maxContourIdx]));
-	cv::UMat draw = cv::UMat::zeros(frames[0].size(), CV_8UC1);
+	cv::UMat trnctPos = cv::UMat::zeros(frames[0].size(), CV_8UC1);
 	cv::Scalar color = cv::Scalar(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
 	minEllipse[0].size.height *= 1.07;
 	minEllipse[0].size.width *= 1.07;
 
-	cv:ellipse(draw, minEllipse[0], cv::Scalar(255,255,255), -1, 8);
+	cv:ellipse(trnctPos, minEllipse[0], cv::Scalar(255,255,255), -1, 8);
 	
-	frames[1].copyTo(draw, draw);
+	frames[1].copyTo(trnctPos, trnctPos);
 	imshowdef(draw);
 
-	cv::threshold(draw, threshold_output1, threshold, 255, cv::THRESH_BINARY);
+	cv::threshold(trnctPos, threshold_output1, threshold, 255, cv::THRESH_BINARY);
 	imshowdef(threshold_output1);
 	
+	processMask(minEllipse[0], threshold_output1);
+	
 
-	//for (int i = 0; i < contours.size(); i++)
-	//{
-	//	if (contours[i].size() < 10)
-	//		continue;
-	//	color = cv::Scalar(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
-	//	cv::drawContours(draw, contours, maxCountourIdx, cv::Scalar::all(100), 3, 8, std::vector<cv::Vec4i>(), 0, cv::Point());
-	//}
-	
-	//imshowdef(draw);
-	getMask(minEllipse[0], threshold_output1);
+
+
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	int roiSize = 200;
+	Utils::Timer fibertimer;
+	fibertimer.start();
+	int roiSize = 150;
 	cv::Point p1(std::max(0, (int)minEllipse[0].center.x - roiSize), 
 				 std::max(0, (int)minEllipse[0].center.y - roiSize));
 	cv::Point p2(std::min(src.rows - 1, (int)minEllipse[0].center.x + roiSize), 
@@ -162,89 +132,62 @@ void Worker::drawHulls(cv::UMat& src, double threshold, double threshold2, int m
 	getHistPeaks(roi);
 	imshowdef(roi);
 	cv::UMat roiThresh;
-	cv::threshold(roi, roiThresh, (float)(histPeaks[0].pos.y + histPeaks[1].pos.y) / 2, 255, cv::THRESH_BINARY);
+	cv::threshold(roi, roiThresh, (float)( histPeaks[0].pos.y + 2 * histPeaks[1].pos.y) / 3, 255, cv::THRESH_BINARY);
 	imshowdef(roiThresh);
 
 	contours.clear();
 	hierarchy.clear();
 	cv::findContours(roiThresh, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0));
-	
 	int idx = Utils::findMostPointsIdx(contours);
-	
-	
 	cv::convexHull(contours[idx], hulls[1]);
 	minEllipse[1] = cv::fitEllipse(cv::Mat(hulls[1]));
+	//minEllipse[1] = cv::fitEllipse(cv::Mat(contours[idx]));
 	minEllipse[1].center.x += p1.x;
 	minEllipse[1].center.y += p1.y;
 	{
 		cv::Scalar color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
 		//cv::drawContours(frames[0], hulls, 1, color, 2, 8, std::vector<cv::Vec4i>(), 0, p1);
 		cv::ellipse(frames[0], minEllipse[1], color, 2);
-	}
 
-	
+	}
+	emit sendDiameter(std::max(minEllipse[1].size.height, minEllipse[1].size.width) * 2, 1);
+	emit sendCenter(minEllipse[1].center.x, minEllipse[1].center.y, 1);
+	emit sendCenter(minEllipse[0].center.x, minEllipse[0].center.y, 0);
+	emit sendCenterDist(cv::norm(minEllipse[0].center - minEllipse[1].center));
+	fibertimer.end();
 }
 
 
-void Worker::hough(cv::UMat& src, cv::UMat& dst) {
-	std::vector<cv::Vec3f> circles;
-	cv::HoughCircles(src, circles, CV_HOUGH_GRADIENT, 1, src.rows / 8, 200, 30, 10, 0);
-	for (size_t i = 0; i < circles.size(); i++)
-	{
-		cv::Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
-		int radius = cvRound(circles[i][2]);
-		// circle center
-		circle(src, center, 3, cv::Scalar(0, 255, 0), -1, 8, 0);
-		// circle outline
-		circle(src, center, radius, cv::Scalar(0, 0, 255), 3, 8, 0);
-	}
-	imshowdef(src);
-}
-
-void Worker::getMask(cv::RotatedRect& ellipse, cv::UMat& src) {
+void Worker::processMask(cv::RotatedRect& ellipse, cv::UMat& src) {
 	cv::Mat kernel = cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(9, 9));	
 	cv::UMat openMask, closeMask, tmpMask;
 	int rsz = 8;
 	cv::resize(src, openMask, cv::Size(src.cols / rsz, src.rows / rsz));
 	cv::resize(src, closeMask, cv::Size(src.cols / rsz, src.rows / rsz));
 	cv::resize(src, tmpMask, cv::Size(src.cols / rsz, src.rows / rsz));
+	//tmpMask = src.clone();
 
 	int br = tmpMask.rows * .2, bc = tmpMask.cols * .2;
 	cv::copyMakeBorder(closeMask, closeMask, br, br, br, br, cv::BORDER_CONSTANT, cv::Scalar(0));
 	cv::copyMakeBorder(openMask, openMask, br, br, br, br, cv::BORDER_CONSTANT, cv::Scalar(0));
 	cv::copyMakeBorder(tmpMask, tmpMask, br, br, br, br, cv::BORDER_CONSTANT, cv::Scalar(0));
 
-
-	//imshowdef(closeMask);
-
-	//cv::multiply(tmpMask, histPeaks[1].pos.y / 255.0f, tmpMask);
-	//cv::erode(tmpMask, tmpMask, kernel, cv::Point(-1, -1), 4, cv::BORDER_DEFAULT);
-	//cv::dilate(tmpMask, tmpMask, kernel, cv::Point(-1, -1), 4, cv::BORDER_DEFAULT);
-    cv::morphologyEx(openMask, openMask, cv::MORPH_OPEN, kernel, cv::Point(-1,-1), 3);//.getUMat(cv::ACCESS_READ));
-	cv::morphologyEx(closeMask, closeMask, cv::MORPH_CLOSE, kernel, cv::Point(-1,-1), 3);// .getUMat(cv::ACCESS_READ));
-	//cv::add(src, tmpMask, src);
-	
-
+	cv::morphologyEx(openMask, openMask, cv::MORPH_OPEN, kernel, cv::Point(-1,-1), 3);
+	cv::morphologyEx(closeMask, closeMask, cv::MORPH_CLOSE, kernel, cv::Point(-1,-1), 3);
 	cv::threshold(openMask, openMask, 50, 255, CV_8UC1);
 
 	std::vector<std::vector<cv::Point> > contours;
 	std::vector<cv::Vec4i> hierarchy;
 	cv::findContours(openMask, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0));
-	//cv::RotatedRect minr = cv::minAreaRect(contours);
-
 	int idx = Utils::findMostPointsIdx(contours);
-
-
 	float r;
 	cv::Point2f center;
+
 	cv::minEnclosingCircle(contours[idx], center, r);
-	
-	cv::UMat circleMask = cv::UMat::zeros(closeMask.size(), CV_8UC1);
-	cv::UMat lcirc = circleMask.clone();
 
+
+	cv::UMat circleMask = cv::UMat::zeros(src.size(), CV_8UC1);
 	cv::circle(circleMask, center, r , cv::Scalar(255), -1, 8, 0);
-	//cv::circle(circleMask, center, r , cv::Scalar(255, 255, 255), -1, 8, 0);
-
 	cv::circle(tmpMask, center, r * .99 , cv::Scalar(255), -1);
 	tmpMask.copyTo(tmpMask, circleMask);
 	contours.clear();
@@ -253,21 +196,19 @@ void Worker::getMask(cv::RotatedRect& ellipse, cv::UMat& src) {
 
 	cv::findContours(tmpMask, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0));
 	idx = Utils::findMostPointsIdx(contours);
-	
-
 	emit sendVariance(Utils::countVariance(contours[idx], center) * rsz * rsz);
-
-	imshowdef(circleMask);
+	emit sendDiameter(r * 2, 0);
 
 	center.x -= br;
 	center.y -= br;
 	center.x *= rsz;
 	center.y *= rsz;
 	r *= rsz;
+	imshowdef(circleMask);
+
+
+	minEllipse[0].center = center;
 	cv::circle(frames[0], center, r, cv::Scalar(200), 4, 8, 0);
-
-
-	emit sendCenter(center.x, center.y, 0);
 
 	imshowdef(openMask);
 	imshowdef(closeMask);
@@ -275,8 +216,6 @@ void Worker::getMask(cv::RotatedRect& ellipse, cv::UMat& src) {
 
 }
 
-void Worker::calculate(std::vector<cv::Point>& contour) {	
-}
 
 
 void Worker::receiveGrabFrame(const QString& fileName) {

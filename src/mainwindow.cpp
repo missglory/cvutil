@@ -44,7 +44,7 @@ void MainWindow::setup() {
 
 	worker = w;
 	thread->start();
-	emit requestFrame("../res/5.jpg");
+	emit requestFrame("../res/4.jpg");
 }
 
 void MainWindow::receiveCenterDist(const double d) {
@@ -59,10 +59,10 @@ void MainWindow::receiveVariance(const double d) {
 void MainWindow::receiveCenter(const float x, const float y, const int order) { 
 	QString s = "(" + QString::number(x) + ", " + QString::number(y) + ")";
 	if (order == 0) {
-		ui->fiberCenter->setText(s);
+		ui->coreCenter->setText(s);
 	}
 	if (order == 1) {
-		ui->coreCenter->setText(s);
+		ui->fiberCenter->setText(s);
 	}
 }
 

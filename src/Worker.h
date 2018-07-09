@@ -31,11 +31,9 @@ private:
 private:
 	void process();
 	void getHistPeaks(cv::UMat const& src_gray);
-	void drawHulls(cv::UMat& src, double threshold, double threshold2, int minContourSize = 200, int iteration = 0, bool eraseDrawing = 1);
-	void calculate(std::vector<cv::Point>& contour);
+	void drawHulls(cv::UMat& src, double threshold);
 	void visualizeHist(cv::Mat& hist, const std::string& window);
-	void getMask(cv::RotatedRect& ellipse, cv::UMat& src);
-	void hough(cv::UMat& src, cv::UMat& dst);
+	void processMask(cv::RotatedRect& ellipse, cv::UMat& src);
 signals:
 	void sendFrame(const QImage& frameProcessed);
 	void sendProcessTime(const float time);
