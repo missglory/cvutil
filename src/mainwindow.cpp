@@ -44,7 +44,7 @@ void MainWindow::setup() {
 
 	worker = w;
 	thread->start();
-	emit requestFrame("../res/6.jpg");
+	emit requestFrame("../res/5.jpg");
 }
 
 void MainWindow::receiveCenterDist(const double d) {

@@ -44,6 +44,7 @@ namespace Utils {
 		return QImage((const unsigned char*)img.data, img.cols, img.rows, format);
 	}
 	struct Timer;
+
 	inline double countVariance(std::vector <double>& v) {
 		double sum = std::accumulate(std::begin(v), std::end(v), 0.0);
 		double m = sum / v.size();
@@ -54,6 +55,18 @@ namespace Utils {
 		});
 		return accum / (v.size() - 1);
 	}
+
+	inline double countVariance(std::vector<cv::Point>& contour, cv::Point center) {
+		std::vector<double> r(contour.size());
+		double R = 0, V = 0;
+		for (size_t i = 0; i < contour.size(); i++)
+		{
+			r[i] = cv::norm(contour[i] - (cv::Point)center);
+			R += r[i];
+		}
+		return countVariance(r);
+	}
+	
 	inline std::pair<int, int>findMostPoints(std::vector<std::vector<cv::Point> >& contours) {
 		int maxContourSize = 0, maxCountourIdx = 0;
 		for (size_t i = 0; i < contours.size(); i++)
@@ -65,6 +78,19 @@ namespace Utils {
 		}
 		return std::make_pair(maxContourSize, maxCountourIdx);
 	}
+
+	inline int findMostPointsIdx(std::vector<std::vector<cv::Point> >& contours) {
+		int maxContourSize = 0, maxCountourIdx = 0;
+		for (size_t i = 0; i < contours.size(); i++)
+		{
+			if (contours[i].size() > maxContourSize) {
+				maxContourSize = contours[i].size();
+				maxCountourIdx = i;
+			}
+		}
+		return maxCountourIdx;
+	}
+
 }
 
 
@@ -87,6 +113,10 @@ struct Utils::Timer {
 		duration = std::chrono::high_resolution_clock::now() - startp;
 		float ms = duration.count() * 1000.0f;
 		return ms;
+	}
+
+	float processTime() {
+		return duration.count() * 1000.0f;
 	}
 };
 
