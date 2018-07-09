@@ -24,6 +24,7 @@ private:
     Ui::MainWindow *ui;
 	QThread* thread;
 	Worker* worker;
+	MainWindow* next;
 
 	void setup();
 	void closeEvent(QCloseEvent *bar);

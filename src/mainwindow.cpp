@@ -5,7 +5,8 @@
 #include <QStringBuilder>
 MainWindow::MainWindow(QWidget *parent):
 	QWidget(parent),
-	ui(new Ui::MainWindow)
+	ui(new Ui::MainWindow),
+	next(NULL)
 {
 	ui->setupUi(this);
 	setup();
@@ -37,6 +38,7 @@ void MainWindow::setup() {
 	connect(w, SIGNAL(sendCenterDist(const double)), this, SLOT(receiveCenterDist(const double)));
 	connect(w, SIGNAL(sendVariance(const double)), this, SLOT(receiveVariance(const double)));
 	connect(w, SIGNAL(sendEccentricity(const double)), this, SLOT(receiveEccentricity(const double)));
+	connect(ui->buttonBack, SIGNAL(clicked(bool)), this, SLOT(onButtonBackClicked()));
 	worker = w;
 	thread->start();
 	emit requestFrame("../res/4.jpg");
