@@ -227,3 +227,4 @@ void Worker::receiveGrabFrame(const QString& fileName) {
 	emit sendProcessTime(timer.elapsed()); 
 	emit sendFrame(Utils::mat_to_qimage(frames[0].getMat(cv::ACCESS_RW), QImage::Format_RGB888));
 }
+

@@ -37,6 +37,7 @@ private slots:
 	void receiveCenter(const float x, const float y, const int order);
 	void receiveCenterDist(const double d);
 	void receiveVariance(const double d);
+	void receiveEccentricity(const double val);
 };
 
 #endif // MAINWINDOW_H

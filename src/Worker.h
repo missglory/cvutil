@@ -17,17 +17,15 @@ class Worker: public QObject {
 public:
 	explicit Worker(QObject *parent = 0);
 	~Worker();
-	//void signalSendFrame(const QString& fileName);
+
 private:
 	cv::UMat frames[2]; //original & grayscale
 	cv::Mat hist;
 	cv::Mat mask;
 	HistPeak histPeaks[histPeaksCount];
 	cv::RotatedRect minEllipse[2];
-	cv::RotatedRect minRect[2];
 	std::vector<std::vector<cv::Point> >hulls;
 	Utils::Timer timer;
-	double diameters[2];
 private:
 	void process();
 	void getHistPeaks(cv::UMat const& src_gray);
@@ -41,6 +39,7 @@ signals:
 	void sendDiameter(const double d, const int order);
 	void sendCenterDist(const double dist);
 	void sendVariance(const double var);
+	void sendEccentricity(const double value);
 public slots:
 	void receiveGrabFrame(const QString& fileName);
 };

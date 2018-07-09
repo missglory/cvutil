@@ -14,22 +14,17 @@ MainWindow::MainWindow(QWidget *parent):
 
 void MainWindow::closeEvent(QCloseEvent *bar) {
 	thread->quit();
-	while (thread->isFinished());
-	delete thread;
-	bar->accept();
+	thread->wait();
 	QWidget::closeEvent(bar);
 }
 
 MainWindow::~MainWindow() {
 	thread->quit();
-	while (thread->isFinished());
-	delete worker;
-	delete thread;
-	
+	thread->wait();
 }
 
 void MainWindow::setup() {
-	thread = new QThread();
+	thread = new QThread(this);
 	Worker* w = new Worker();
 	w->moveToThread(thread);
 	connect(this, SIGNAL(sendSetup(int)), w, SLOT(receiveSetup(int)));
@@ -41,7 +36,7 @@ void MainWindow::setup() {
 	connect(w, SIGNAL(sendCenter(const float, const float, const int)), this, SLOT(receiveCenter(const float, const float, const int)));
 	connect(w, SIGNAL(sendCenterDist(const double)), this, SLOT(receiveCenterDist(const double)));
 	connect(w, SIGNAL(sendVariance(const double)), this, SLOT(receiveVariance(const double)));
-
+	connect(w, SIGNAL(sendEccentricity(const double)), this, SLOT(receiveEccentricity(const double)));
 	worker = w;
 	thread->start();
 	emit requestFrame("../res/4.jpg");
@@ -96,4 +91,8 @@ void MainWindow::onOpenButtonClicked() {
 		//worker->signalSendFrame(fileName);
 		emit requestFrame(fileName);
 	}
+}
+
+void MainWindow::receiveEccentricity(const double val) {
+	ui->coreEccentricity->setText(QString::number(val));
 }
