@@ -1,8 +1,10 @@
 #include <iostream>
 #include "opencv2/opencv.hpp"
 #include <vector>
+#include "masterwindow.h"
 #include "mainwindow.h"
 #include <QtWidgets/QApplication>
+
 
 const int W = 800;
 const int H = 500;
@@ -15,8 +17,8 @@ int main(int argc, char *argv[]) {
 		exit(0);
 	}
 	QApplication app(argc, argv);
-	MainWindow mainWindow;
-	mainWindow.show();
+	MasterWindow master;
+	//master.show();
 	return app.exec();
 
 }

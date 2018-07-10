@@ -1,0 +1,669 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{CB1196BA-D9EC-34C2-BD93-E86C08276B48}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>opencv</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Admin\Documents\cmake_projects\opencv\build\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">opencv.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">opencv</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\Admin\Documents\cmake_projects\opencv\build\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">opencv.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">opencv</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\Admin\Documents\cmake_projects\opencv\build\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">opencv.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">opencv</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\Admin\Documents\cmake_projects\opencv\build\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">opencv.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">opencv</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Admin\Documents\cmake_projects\opencv\build;C:\Users\Admin\Documents\cmake_projects\opencv;C:\Users\Admin\Documents\cmake_projects\opencv\build\opencv_autogen\include_Debug;C:\Users\Admin\Documents\cmake_projects\opencv\include;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5\..\..\..\include;C:\Qtvc\5.11.1\msvc2017_64\include;C:\Qtvc\5.11.1\msvc2017_64\include\QtCore;C:\Qtvc\5.11.1\msvc2017_64\.\mkspecs\win32-msvc;C:\Qtvc\5.11.1\msvc2017_64\include\QtWidgets;C:\Qtvc\5.11.1\msvc2017_64\include\QtGui;C:\Qtvc\5.11.1\msvc2017_64\include\QtANGLE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Debug/</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;QT_CORE_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;QT_CORE_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Admin\Documents\cmake_projects\opencv\build;C:\Users\Admin\Documents\cmake_projects\opencv;C:\Users\Admin\Documents\cmake_projects\opencv\build\opencv_autogen\include_Debug;C:\Users\Admin\Documents\cmake_projects\opencv\include;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5\..\..\..\include;C:\Qtvc\5.11.1\msvc2017_64\include;C:\Qtvc\5.11.1\msvc2017_64\include\QtCore;C:\Qtvc\5.11.1\msvc2017_64\.\mkspecs\win32-msvc;C:\Qtvc\5.11.1\msvc2017_64\include\QtWidgets;C:\Qtvc\5.11.1\msvc2017_64\include\QtGui;C:\Qtvc\5.11.1\msvc2017_64\include\QtANGLE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\Admin\Documents\cmake_projects\opencv\build;C:\Users\Admin\Documents\cmake_projects\opencv;C:\Users\Admin\Documents\cmake_projects\opencv\build\opencv_autogen\include_Debug;C:\Users\Admin\Documents\cmake_projects\opencv\include;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5\..\..\..\include;C:\Qtvc\5.11.1\msvc2017_64\include;C:\Qtvc\5.11.1\msvc2017_64\include\QtCore;C:\Qtvc\5.11.1\msvc2017_64\.\mkspecs\win32-msvc;C:\Qtvc\5.11.1\msvc2017_64\include\QtWidgets;C:\Qtvc\5.11.1\msvc2017_64\include\QtGui;C:\Qtvc\5.11.1\msvc2017_64\include\QtANGLE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreBuildEvent>
+      <Message>Automatic MOC and UIC for target opencv</Message>
+      <Command>setlocal
+cd C:\Users\Admin\Documents\cmake_projects\opencv\build
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E cmake_autogen C:/Users/Admin/Documents/cmake_projects/opencv/build/CMakeFiles/opencv_autogen.dir/AutogenInfo.cmake Debug
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+    <Link>
+      <AdditionalDependencies>C:\Qtvc\5.11.1\msvc2017_64\lib\Qt5Widgetsd.lib;C:\Qtvc\5.11.1\msvc2017_64\lib\Qt5Guid.lib;..\lib\opencv_world341d.lib;C:\Qtvc\5.11.1\msvc2017_64\lib\Qt5Cored.lib;C:\Qtvc\5.11.1\msvc2017_64\lib\qtmaind.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/Admin/Documents/cmake_projects/opencv/build/Debug/opencv.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/Admin/Documents/cmake_projects/opencv/build/Debug/opencv.pdb</ProgramDataBaseFile>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Admin\Documents\cmake_projects\opencv\build;C:\Users\Admin\Documents\cmake_projects\opencv;C:\Users\Admin\Documents\cmake_projects\opencv\build\opencv_autogen\include_Release;C:\Users\Admin\Documents\cmake_projects\opencv\include;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5\..\..\..\include;C:\Qtvc\5.11.1\msvc2017_64\include;C:\Qtvc\5.11.1\msvc2017_64\include\QtCore;C:\Qtvc\5.11.1\msvc2017_64\.\mkspecs\win32-msvc;C:\Qtvc\5.11.1\msvc2017_64\include\QtWidgets;C:\Qtvc\5.11.1\msvc2017_64\include\QtGui;C:\Qtvc\5.11.1\msvc2017_64\include\QtANGLE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Release/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;QT_CORE_LIB;QT_NO_DEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;QT_CORE_LIB;QT_NO_DEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Admin\Documents\cmake_projects\opencv\build;C:\Users\Admin\Documents\cmake_projects\opencv;C:\Users\Admin\Documents\cmake_projects\opencv\build\opencv_autogen\include_Release;C:\Users\Admin\Documents\cmake_projects\opencv\include;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5\..\..\..\include;C:\Qtvc\5.11.1\msvc2017_64\include;C:\Qtvc\5.11.1\msvc2017_64\include\QtCore;C:\Qtvc\5.11.1\msvc2017_64\.\mkspecs\win32-msvc;C:\Qtvc\5.11.1\msvc2017_64\include\QtWidgets;C:\Qtvc\5.11.1\msvc2017_64\include\QtGui;C:\Qtvc\5.11.1\msvc2017_64\include\QtANGLE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\Admin\Documents\cmake_projects\opencv\build;C:\Users\Admin\Documents\cmake_projects\opencv;C:\Users\Admin\Documents\cmake_projects\opencv\build\opencv_autogen\include_Release;C:\Users\Admin\Documents\cmake_projects\opencv\include;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5\..\..\..\include;C:\Qtvc\5.11.1\msvc2017_64\include;C:\Qtvc\5.11.1\msvc2017_64\include\QtCore;C:\Qtvc\5.11.1\msvc2017_64\.\mkspecs\win32-msvc;C:\Qtvc\5.11.1\msvc2017_64\include\QtWidgets;C:\Qtvc\5.11.1\msvc2017_64\include\QtGui;C:\Qtvc\5.11.1\msvc2017_64\include\QtANGLE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreBuildEvent>
+      <Message>Automatic MOC and UIC for target opencv</Message>
+      <Command>setlocal
+cd C:\Users\Admin\Documents\cmake_projects\opencv\build
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E cmake_autogen C:/Users/Admin/Documents/cmake_projects/opencv/build/CMakeFiles/opencv_autogen.dir/AutogenInfo.cmake Release
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+    <Link>
+      <AdditionalDependencies>C:\Qtvc\5.11.1\msvc2017_64\lib\Qt5Widgets.lib;C:\Qtvc\5.11.1\msvc2017_64\lib\Qt5Gui.lib;..\lib\opencv_world341d.lib;C:\Qtvc\5.11.1\msvc2017_64\lib\Qt5Core.lib;C:\Qtvc\5.11.1\msvc2017_64\lib\qtmain.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/Admin/Documents/cmake_projects/opencv/build/Release/opencv.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/Admin/Documents/cmake_projects/opencv/build/Release/opencv.pdb</ProgramDataBaseFile>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Admin\Documents\cmake_projects\opencv\build;C:\Users\Admin\Documents\cmake_projects\opencv;C:\Users\Admin\Documents\cmake_projects\opencv\build\opencv_autogen\include_MinSizeRel;C:\Users\Admin\Documents\cmake_projects\opencv\include;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5\..\..\..\include;C:\Qtvc\5.11.1\msvc2017_64\include;C:\Qtvc\5.11.1\msvc2017_64\include\QtCore;C:\Qtvc\5.11.1\msvc2017_64\.\mkspecs\win32-msvc;C:\Qtvc\5.11.1\msvc2017_64\include\QtWidgets;C:\Qtvc\5.11.1\msvc2017_64\include\QtGui;C:\Qtvc\5.11.1\msvc2017_64\include\QtANGLE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>MinSizeRel/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;QT_CORE_LIB;QT_NO_DEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;QT_CORE_LIB;QT_NO_DEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Admin\Documents\cmake_projects\opencv\build;C:\Users\Admin\Documents\cmake_projects\opencv;C:\Users\Admin\Documents\cmake_projects\opencv\build\opencv_autogen\include_MinSizeRel;C:\Users\Admin\Documents\cmake_projects\opencv\include;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5\..\..\..\include;C:\Qtvc\5.11.1\msvc2017_64\include;C:\Qtvc\5.11.1\msvc2017_64\include\QtCore;C:\Qtvc\5.11.1\msvc2017_64\.\mkspecs\win32-msvc;C:\Qtvc\5.11.1\msvc2017_64\include\QtWidgets;C:\Qtvc\5.11.1\msvc2017_64\include\QtGui;C:\Qtvc\5.11.1\msvc2017_64\include\QtANGLE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\Admin\Documents\cmake_projects\opencv\build;C:\Users\Admin\Documents\cmake_projects\opencv;C:\Users\Admin\Documents\cmake_projects\opencv\build\opencv_autogen\include_MinSizeRel;C:\Users\Admin\Documents\cmake_projects\opencv\include;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5\..\..\..\include;C:\Qtvc\5.11.1\msvc2017_64\include;C:\Qtvc\5.11.1\msvc2017_64\include\QtCore;C:\Qtvc\5.11.1\msvc2017_64\.\mkspecs\win32-msvc;C:\Qtvc\5.11.1\msvc2017_64\include\QtWidgets;C:\Qtvc\5.11.1\msvc2017_64\include\QtGui;C:\Qtvc\5.11.1\msvc2017_64\include\QtANGLE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreBuildEvent>
+      <Message>Automatic MOC and UIC for target opencv</Message>
+      <Command>setlocal
+cd C:\Users\Admin\Documents\cmake_projects\opencv\build
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E cmake_autogen C:/Users/Admin/Documents/cmake_projects/opencv/build/CMakeFiles/opencv_autogen.dir/AutogenInfo.cmake MinSizeRel
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+    <Link>
+      <AdditionalDependencies>C:\Qtvc\5.11.1\msvc2017_64\lib\Qt5Widgets.lib;C:\Qtvc\5.11.1\msvc2017_64\lib\Qt5Gui.lib;..\lib\opencv_world341d.lib;C:\Qtvc\5.11.1\msvc2017_64\lib\Qt5Core.lib;C:\Qtvc\5.11.1\msvc2017_64\lib\qtmain.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/Admin/Documents/cmake_projects/opencv/build/MinSizeRel/opencv.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/Admin/Documents/cmake_projects/opencv/build/MinSizeRel/opencv.pdb</ProgramDataBaseFile>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Admin\Documents\cmake_projects\opencv\build;C:\Users\Admin\Documents\cmake_projects\opencv;C:\Users\Admin\Documents\cmake_projects\opencv\build\opencv_autogen\include_RelWithDebInfo;C:\Users\Admin\Documents\cmake_projects\opencv\include;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5\..\..\..\include;C:\Qtvc\5.11.1\msvc2017_64\include;C:\Qtvc\5.11.1\msvc2017_64\include\QtCore;C:\Qtvc\5.11.1\msvc2017_64\.\mkspecs\win32-msvc;C:\Qtvc\5.11.1\msvc2017_64\include\QtWidgets;C:\Qtvc\5.11.1\msvc2017_64\include\QtGui;C:\Qtvc\5.11.1\msvc2017_64\include\QtANGLE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>RelWithDebInfo/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;QT_CORE_LIB;QT_NO_DEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;QT_CORE_LIB;QT_NO_DEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Admin\Documents\cmake_projects\opencv\build;C:\Users\Admin\Documents\cmake_projects\opencv;C:\Users\Admin\Documents\cmake_projects\opencv\build\opencv_autogen\include_RelWithDebInfo;C:\Users\Admin\Documents\cmake_projects\opencv\include;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5\..\..\..\include;C:\Qtvc\5.11.1\msvc2017_64\include;C:\Qtvc\5.11.1\msvc2017_64\include\QtCore;C:\Qtvc\5.11.1\msvc2017_64\.\mkspecs\win32-msvc;C:\Qtvc\5.11.1\msvc2017_64\include\QtWidgets;C:\Qtvc\5.11.1\msvc2017_64\include\QtGui;C:\Qtvc\5.11.1\msvc2017_64\include\QtANGLE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\Admin\Documents\cmake_projects\opencv\build;C:\Users\Admin\Documents\cmake_projects\opencv;C:\Users\Admin\Documents\cmake_projects\opencv\build\opencv_autogen\include_RelWithDebInfo;C:\Users\Admin\Documents\cmake_projects\opencv\include;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5\..\..\..\include;C:\Qtvc\5.11.1\msvc2017_64\include;C:\Qtvc\5.11.1\msvc2017_64\include\QtCore;C:\Qtvc\5.11.1\msvc2017_64\.\mkspecs\win32-msvc;C:\Qtvc\5.11.1\msvc2017_64\include\QtWidgets;C:\Qtvc\5.11.1\msvc2017_64\include\QtGui;C:\Qtvc\5.11.1\msvc2017_64\include\QtANGLE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreBuildEvent>
+      <Message>Automatic MOC and UIC for target opencv</Message>
+      <Command>setlocal
+cd C:\Users\Admin\Documents\cmake_projects\opencv\build
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E cmake_autogen C:/Users/Admin/Documents/cmake_projects/opencv/build/CMakeFiles/opencv_autogen.dir/AutogenInfo.cmake RelWithDebInfo
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+    <Link>
+      <AdditionalDependencies>C:\Qtvc\5.11.1\msvc2017_64\lib\Qt5Widgets.lib;C:\Qtvc\5.11.1\msvc2017_64\lib\Qt5Gui.lib;..\lib\opencv_world341d.lib;C:\Qtvc\5.11.1\msvc2017_64\lib\Qt5Core.lib;C:\Qtvc\5.11.1\msvc2017_64\lib\qtmain.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/Admin/Documents/cmake_projects/opencv/build/RelWithDebInfo/opencv.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/Admin/Documents/cmake_projects/opencv/build/RelWithDebInfo/opencv.pdb</ProgramDataBaseFile>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Admin\Documents\cmake_projects\build\CMakeFiles\fce1f941c666606acf237a2db491ce23\moc_mainwindow.cpp.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating src/moc_mainwindow.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd C:\Users\Admin\Documents\cmake_projects\opencv\build\src
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Qtvc\5.11.1\msvc2017_64\bin\moc.exe @C:/Users/Admin/Documents/cmake_projects/opencv/build/src/moc_mainwindow.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:/Users/Admin/Documents/cmake_projects/build/CMakeFiles/fce1f941c666606acf237a2db491ce23/moc_mainwindow.cpp.rule;C:\Users\Admin\Documents\cmake_projects\opencv\src\mainwindow.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Admin\Documents\cmake_projects\opencv\build\src\moc_mainwindow.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating src/moc_mainwindow.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+cd C:\Users\Admin\Documents\cmake_projects\opencv\build\src
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Qtvc\5.11.1\msvc2017_64\bin\moc.exe @C:/Users/Admin/Documents/cmake_projects/opencv/build/src/moc_mainwindow.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:/Users/Admin/Documents/cmake_projects/build/CMakeFiles/fce1f941c666606acf237a2db491ce23/moc_mainwindow.cpp.rule;C:\Users\Admin\Documents\cmake_projects\opencv\src\mainwindow.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\Admin\Documents\cmake_projects\opencv\build\src\moc_mainwindow.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Generating src/moc_mainwindow.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+cd C:\Users\Admin\Documents\cmake_projects\opencv\build\src
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Qtvc\5.11.1\msvc2017_64\bin\moc.exe @C:/Users/Admin/Documents/cmake_projects/opencv/build/src/moc_mainwindow.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:/Users/Admin/Documents/cmake_projects/build/CMakeFiles/fce1f941c666606acf237a2db491ce23/moc_mainwindow.cpp.rule;C:\Users\Admin\Documents\cmake_projects\opencv\src\mainwindow.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\Admin\Documents\cmake_projects\opencv\build\src\moc_mainwindow.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Generating src/moc_mainwindow.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+cd C:\Users\Admin\Documents\cmake_projects\opencv\build\src
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Qtvc\5.11.1\msvc2017_64\bin\moc.exe @C:/Users/Admin/Documents/cmake_projects/opencv/build/src/moc_mainwindow.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:/Users/Admin/Documents/cmake_projects/build/CMakeFiles/fce1f941c666606acf237a2db491ce23/moc_mainwindow.cpp.rule;C:\Users\Admin\Documents\cmake_projects\opencv\src\mainwindow.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\Admin\Documents\cmake_projects\opencv\build\src\moc_mainwindow.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Admin\Documents\cmake_projects\build\CMakeFiles\fce1f941c666606acf237a2db491ce23\moc_utils.cpp.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating src/moc_utils.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd C:\Users\Admin\Documents\cmake_projects\opencv\build\src
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Qtvc\5.11.1\msvc2017_64\bin\moc.exe @C:/Users/Admin/Documents/cmake_projects/opencv/build/src/moc_utils.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:/Users/Admin/Documents/cmake_projects/build/CMakeFiles/fce1f941c666606acf237a2db491ce23/moc_utils.cpp.rule;C:\Users\Admin\Documents\cmake_projects\opencv\src\utils.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Admin\Documents\cmake_projects\opencv\build\src\moc_utils.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating src/moc_utils.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+cd C:\Users\Admin\Documents\cmake_projects\opencv\build\src
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Qtvc\5.11.1\msvc2017_64\bin\moc.exe @C:/Users/Admin/Documents/cmake_projects/opencv/build/src/moc_utils.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:/Users/Admin/Documents/cmake_projects/build/CMakeFiles/fce1f941c666606acf237a2db491ce23/moc_utils.cpp.rule;C:\Users\Admin\Documents\cmake_projects\opencv\src\utils.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\Admin\Documents\cmake_projects\opencv\build\src\moc_utils.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Generating src/moc_utils.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+cd C:\Users\Admin\Documents\cmake_projects\opencv\build\src
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Qtvc\5.11.1\msvc2017_64\bin\moc.exe @C:/Users/Admin/Documents/cmake_projects/opencv/build/src/moc_utils.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:/Users/Admin/Documents/cmake_projects/build/CMakeFiles/fce1f941c666606acf237a2db491ce23/moc_utils.cpp.rule;C:\Users\Admin\Documents\cmake_projects\opencv\src\utils.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\Admin\Documents\cmake_projects\opencv\build\src\moc_utils.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Generating src/moc_utils.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+cd C:\Users\Admin\Documents\cmake_projects\opencv\build\src
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Qtvc\5.11.1\msvc2017_64\bin\moc.exe @C:/Users/Admin/Documents/cmake_projects/opencv/build/src/moc_utils.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:/Users/Admin/Documents/cmake_projects/build/CMakeFiles/fce1f941c666606acf237a2db491ce23/moc_utils.cpp.rule;C:\Users\Admin\Documents\cmake_projects\opencv\src\utils.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\Admin\Documents\cmake_projects\opencv\build\src\moc_utils.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Admin\Documents\cmake_projects\build\CMakeFiles\fce1f941c666606acf237a2db491ce23\moc_Worker.cpp.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating src/moc_Worker.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd C:\Users\Admin\Documents\cmake_projects\opencv\build\src
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Qtvc\5.11.1\msvc2017_64\bin\moc.exe @C:/Users/Admin/Documents/cmake_projects/opencv/build/src/moc_Worker.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:/Users/Admin/Documents/cmake_projects/build/CMakeFiles/fce1f941c666606acf237a2db491ce23/moc_Worker.cpp.rule;C:\Users\Admin\Documents\cmake_projects\opencv\src\Worker.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Admin\Documents\cmake_projects\opencv\build\src\moc_Worker.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating src/moc_Worker.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+cd C:\Users\Admin\Documents\cmake_projects\opencv\build\src
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Qtvc\5.11.1\msvc2017_64\bin\moc.exe @C:/Users/Admin/Documents/cmake_projects/opencv/build/src/moc_Worker.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:/Users/Admin/Documents/cmake_projects/build/CMakeFiles/fce1f941c666606acf237a2db491ce23/moc_Worker.cpp.rule;C:\Users\Admin\Documents\cmake_projects\opencv\src\Worker.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\Admin\Documents\cmake_projects\opencv\build\src\moc_Worker.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Generating src/moc_Worker.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+cd C:\Users\Admin\Documents\cmake_projects\opencv\build\src
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Qtvc\5.11.1\msvc2017_64\bin\moc.exe @C:/Users/Admin/Documents/cmake_projects/opencv/build/src/moc_Worker.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:/Users/Admin/Documents/cmake_projects/build/CMakeFiles/fce1f941c666606acf237a2db491ce23/moc_Worker.cpp.rule;C:\Users\Admin\Documents\cmake_projects\opencv\src\Worker.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\Admin\Documents\cmake_projects\opencv\build\src\moc_Worker.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Generating src/moc_Worker.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+cd C:\Users\Admin\Documents\cmake_projects\opencv\build\src
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Qtvc\5.11.1\msvc2017_64\bin\moc.exe @C:/Users/Admin/Documents/cmake_projects/opencv/build/src/moc_Worker.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:/Users/Admin/Documents/cmake_projects/build/CMakeFiles/fce1f941c666606acf237a2db491ce23/moc_Worker.cpp.rule;C:\Users\Admin\Documents\cmake_projects\opencv\src\Worker.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\Admin\Documents\cmake_projects\opencv\build\src\moc_Worker.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Admin\Documents\cmake_projects\opencv\src\mainwindow.ui">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating ui_mainwindow.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Qtvc\5.11.1\msvc2017_64\bin\uic.exe -o C:/Users/Admin/Documents/cmake_projects/opencv/build/ui_mainwindow.h C:/Users/Admin/Documents/cmake_projects/opencv/src/mainwindow.ui
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:/Users/Admin/Documents/cmake_projects/opencv/src/mainwindow.ui;C:\Users\Admin\Documents\cmake_projects\opencv\src\mainwindow.ui;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Admin\Documents\cmake_projects\opencv\build\ui_mainwindow.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating ui_mainwindow.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\Qtvc\5.11.1\msvc2017_64\bin\uic.exe -o C:/Users/Admin/Documents/cmake_projects/opencv/build/ui_mainwindow.h C:/Users/Admin/Documents/cmake_projects/opencv/src/mainwindow.ui
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:/Users/Admin/Documents/cmake_projects/opencv/src/mainwindow.ui;C:\Users\Admin\Documents\cmake_projects\opencv\src\mainwindow.ui;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\Admin\Documents\cmake_projects\opencv\build\ui_mainwindow.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Generating ui_mainwindow.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\Qtvc\5.11.1\msvc2017_64\bin\uic.exe -o C:/Users/Admin/Documents/cmake_projects/opencv/build/ui_mainwindow.h C:/Users/Admin/Documents/cmake_projects/opencv/src/mainwindow.ui
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:/Users/Admin/Documents/cmake_projects/opencv/src/mainwindow.ui;C:\Users\Admin\Documents\cmake_projects\opencv\src\mainwindow.ui;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\Admin\Documents\cmake_projects\opencv\build\ui_mainwindow.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Generating ui_mainwindow.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\Qtvc\5.11.1\msvc2017_64\bin\uic.exe -o C:/Users/Admin/Documents/cmake_projects/opencv/build/ui_mainwindow.h C:/Users/Admin/Documents/cmake_projects/opencv/src/mainwindow.ui
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:/Users/Admin/Documents/cmake_projects/opencv/src/mainwindow.ui;C:\Users\Admin\Documents\cmake_projects\opencv\src\mainwindow.ui;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\Admin\Documents\cmake_projects\opencv\build\ui_mainwindow.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Admin\Documents\cmake_projects\opencv\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Users/Admin/Documents/cmake_projects/opencv/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HC:/Users/Admin/Documents/cmake_projects -BC:/Users/Admin/Documents/cmake_projects/build --check-stamp-file C:/Users/Admin/Documents/cmake_projects/opencv/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:/Users/Admin/Documents/cmake_projects/opencv/CMakeLists.txt;C:\Users\Admin\Documents\cmake_projects\opencv\CMakeLists.txt;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5\Qt5ConfigVersion.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5\Qt5Config.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5\Qt5ModuleLocation.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreConfigVersion.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreConfig.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreConfigExtras.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreConfigExtrasMkspecDir.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreMacros.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CMakeParseArguments.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfigVersion.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfig.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5GuiConfigVersion.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5GuiConfig.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QFlatpakThemePlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QGifPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QICNSPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QICOPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QJpegPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QMinimalIntegrationPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QOffscreenIntegrationPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QTgaPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QTiffPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QTuioTouchPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QWbmpPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QWebpPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QWindowsDirect2DIntegrationPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QWindowsIntegrationPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5GuiConfigExtras.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Widgets\Qt5Widgets_QWindowsVistaStylePlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfigExtras.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsMacros.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CMakeParseArguments.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5GuiConfigVersion.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5GuiConfig.cmake;C:\Users\Admin\Documents\cmake_projects\opencv\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Admin\Documents\cmake_projects\opencv\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Users/Admin/Documents/cmake_projects/opencv/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HC:/Users/Admin/Documents/cmake_projects -BC:/Users/Admin/Documents/cmake_projects/build --check-stamp-file C:/Users/Admin/Documents/cmake_projects/opencv/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:/Users/Admin/Documents/cmake_projects/opencv/CMakeLists.txt;C:\Users\Admin\Documents\cmake_projects\opencv\CMakeLists.txt;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5\Qt5ConfigVersion.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5\Qt5Config.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5\Qt5ModuleLocation.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreConfigVersion.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreConfig.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreConfigExtras.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreConfigExtrasMkspecDir.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreMacros.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CMakeParseArguments.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfigVersion.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfig.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5GuiConfigVersion.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5GuiConfig.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QFlatpakThemePlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QGifPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QICNSPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QICOPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QJpegPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QMinimalIntegrationPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QOffscreenIntegrationPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QTgaPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QTiffPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QTuioTouchPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QWbmpPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QWebpPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QWindowsDirect2DIntegrationPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QWindowsIntegrationPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5GuiConfigExtras.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Widgets\Qt5Widgets_QWindowsVistaStylePlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfigExtras.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsMacros.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CMakeParseArguments.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5GuiConfigVersion.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5GuiConfig.cmake;C:\Users\Admin\Documents\cmake_projects\opencv\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\Admin\Documents\cmake_projects\opencv\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Users/Admin/Documents/cmake_projects/opencv/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HC:/Users/Admin/Documents/cmake_projects -BC:/Users/Admin/Documents/cmake_projects/build --check-stamp-file C:/Users/Admin/Documents/cmake_projects/opencv/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:/Users/Admin/Documents/cmake_projects/opencv/CMakeLists.txt;C:\Users\Admin\Documents\cmake_projects\opencv\CMakeLists.txt;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5\Qt5ConfigVersion.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5\Qt5Config.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5\Qt5ModuleLocation.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreConfigVersion.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreConfig.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreConfigExtras.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreConfigExtrasMkspecDir.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreMacros.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CMakeParseArguments.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfigVersion.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfig.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5GuiConfigVersion.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5GuiConfig.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QFlatpakThemePlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QGifPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QICNSPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QICOPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QJpegPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QMinimalIntegrationPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QOffscreenIntegrationPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QTgaPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QTiffPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QTuioTouchPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QWbmpPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QWebpPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QWindowsDirect2DIntegrationPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QWindowsIntegrationPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5GuiConfigExtras.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Widgets\Qt5Widgets_QWindowsVistaStylePlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfigExtras.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsMacros.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CMakeParseArguments.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5GuiConfigVersion.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5GuiConfig.cmake;C:\Users\Admin\Documents\cmake_projects\opencv\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\Admin\Documents\cmake_projects\opencv\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Users/Admin/Documents/cmake_projects/opencv/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HC:/Users/Admin/Documents/cmake_projects -BC:/Users/Admin/Documents/cmake_projects/build --check-stamp-file C:/Users/Admin/Documents/cmake_projects/opencv/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:/Users/Admin/Documents/cmake_projects/opencv/CMakeLists.txt;C:\Users\Admin\Documents\cmake_projects\opencv\CMakeLists.txt;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5\Qt5ConfigVersion.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5\Qt5Config.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5\Qt5ModuleLocation.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreConfigVersion.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreConfig.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreConfigExtras.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreConfigExtrasMkspecDir.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreMacros.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CMakeParseArguments.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfigVersion.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfig.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5GuiConfigVersion.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5GuiConfig.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QFlatpakThemePlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QGifPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QICNSPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QICOPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QJpegPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QMinimalIntegrationPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QOffscreenIntegrationPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QTgaPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QTiffPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QTuioTouchPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QWbmpPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QWebpPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QWindowsDirect2DIntegrationPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QWindowsIntegrationPlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5GuiConfigExtras.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Widgets\Qt5Widgets_QWindowsVistaStylePlugin.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfigExtras.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsMacros.cmake;C:\Program Files\CMake\share\cmake-3.11\Modules\CMakeParseArguments.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5GuiConfigVersion.cmake;C:\Qtvc\5.11.1\msvc2017_64\lib\cmake\Qt5Gui\Qt5GuiConfig.cmake;C:\Users\Admin\Documents\cmake_projects\opencv\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\Admin\Documents\cmake_projects\opencv\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\Admin\Documents\cmake_projects\opencv\src\mainwindow.h" />
+    <ClInclude Include="C:\Users\Admin\Documents\cmake_projects\opencv\src\utils.h" />
+    <ClInclude Include="C:\Users\Admin\Documents\cmake_projects\opencv\src\Worker.h" />
+    <ClCompile Include="C:\Users\Admin\Documents\cmake_projects\opencv\src\Source1.cpp" />
+    <ClCompile Include="C:\Users\Admin\Documents\cmake_projects\opencv\src\mainwindow.cpp" />
+    <ClCompile Include="C:\Users\Admin\Documents\cmake_projects\opencv\src\Worker.cpp" />
+    <ClCompile Include="C:\Users\Admin\Documents\cmake_projects\opencv\build\src\moc_mainwindow.cpp" />
+    <ClCompile Include="C:\Users\Admin\Documents\cmake_projects\opencv\build\src\moc_utils.cpp" />
+    <ClCompile Include="C:\Users\Admin\Documents\cmake_projects\opencv\build\src\moc_Worker.cpp" />
+    <ClInclude Include="C:\Users\Admin\Documents\cmake_projects\opencv\build\ui_mainwindow.h" />
+    <ClCompile Include="C:\Users\Admin\Documents\cmake_projects\opencv\build\opencv_autogen\mocs_compilation.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:\Users\Admin\Documents\cmake_projects\build\ZERO_CHECK.vcxproj">
+      <Project>{10327202-19C2-3C12-9FDA-7D44EAFDF7F3}</Project>
+      <Name>ZERO_CHECK</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

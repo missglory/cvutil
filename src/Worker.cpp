@@ -14,10 +14,10 @@ Worker::~Worker(){}
 #define getmatrw getMat(cv::ACCESS_RW)
 
 
-//#define IMSHOWS
+#define IMSHOWS
 
 #ifdef IMSHOWS
-#define imshowdef(x) cv::namedWindow((#x), CV_WINDOW_KEEPRATIO); cv::imshow(#x, (x))
+#define imshowdef(x) cv::namedWindow((#x), CV_WINDOW_AUTOSIZE); cv::imshow(#x, (x))
 #define imshownamed(x, s) cv::namedWindow((s), CV_WINDOW_KEEPRATIO); cv::imshow((s), (x))
 #else
 #define imshowdef(x)
@@ -91,6 +91,8 @@ void Worker::visualizeHist(cv::Mat& hist, const std::string& window) {}
 void Worker::drawHulls(cv::UMat& src, double threshold) {
 	cv::RNG rng(12345);
 	
+
+	
 	//cv::bilateralFilter(src, src, 10, 30, 10);
 	std::vector<std::vector<cv::Point> > contours;
 	std::vector<cv::Vec4i> hierarchy;
@@ -106,10 +108,26 @@ void Worker::drawHulls(cv::UMat& src, double threshold) {
 	minEllipse[0].size.height *= 1.07;
 	minEllipse[0].size.width *= 1.07;
 
-	cv:ellipse(trnctPos, minEllipse[0], cv::Scalar(255,255,255), -1, 8);
+	//cv:ellipse(trnctPos, minEllipse[0], cv::Scalar(255,255,255), -1, 8);
 	
-	frames[1].copyTo(trnctPos, trnctPos);
-	imshowdef(draw);
+
+
+	cv::UMat dist;
+	cv::distanceTransform(threshold_output1, dist, CV_DIST_L1, 3);
+	cv::normalize(dist, dist, 0., 1., cv::NORM_MINMAX);
+	//cv::threshold(dist, dist, .01, 255, cv::THRESH_BINARY);
+	Utils::toUchar(dist);
+	imshowdef(dist);
+	//cv::Mat kernel = cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(3, 3));
+	//cv::morphologyEx(dist, dist, cv::MORPH_GRADIENT, kernel, cv::Point(-1, -1), 1);
+
+	contours.clear();
+	hierarchy.clear();
+	Utils::findContours(dist, contours, hierarchy);
+
+	int idx = Utils::findMostPointsIdx(contours);
+	cv::drawContours(frames[0], contours, idx, cv::Scalar(255, 255, 255), 3);
+
 
 	cv::threshold(trnctPos, threshold_output1, threshold, 255, cv::THRESH_BINARY);
 	imshowdef(threshold_output1);
@@ -138,7 +156,7 @@ void Worker::drawHulls(cv::UMat& src, double threshold) {
 	contours.clear();
 	hierarchy.clear();
 	cv::findContours(roiThresh, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0));
-	int idx = Utils::findMostPointsIdx(contours);
+	idx = Utils::findMostPointsIdx(contours);
 	cv::convexHull(contours[idx], hulls[1]);
 	minEllipse[1] = cv::fitEllipse(cv::Mat(hulls[1]));
 	//minEllipse[1] = cv::fitEllipse(cv::Mat(contours[idx]));
@@ -147,7 +165,7 @@ void Worker::drawHulls(cv::UMat& src, double threshold) {
 	{
 		cv::Scalar color(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
 		//cv::drawContours(frames[0], hulls, 1, color, 2, 8, std::vector<cv::Vec4i>(), 0, p1);
-		cv::ellipse(frames[0], minEllipse[1], color, 2);
+		//cv::ellipse(frames[0], minEllipse[1], color, 2);
 
 	}
 	emit sendDiameter(std::max(minEllipse[1].size.height, minEllipse[1].size.width) * 2, 1);

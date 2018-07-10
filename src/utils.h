@@ -90,7 +90,21 @@ namespace Utils {
 		}
 		return maxCountourIdx;
 	}
-
+	inline void toFloat(cv::UMat& src) {
+		src.convertTo(src, CV_32F);
+	}
+	inline void toUchar(cv::UMat& src) {
+		src.convertTo(src, CV_8U);
+	}
+	inline void findContours(cv::UMat& src, std::vector<std::vector<cv::Point> >& contours, std::vector<cv::Vec4i>& hierarchy) {
+		contours.clear();
+		hierarchy.clear();
+		cv::findContours(src, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0));
+	}
+	inline void distance(cv::UMat& src, cv::UMat& dst) {
+		cv::distanceTransform(src, dst, CV_DIST_L1, 3);
+		cv::normalize(dst, dst, 0., 1., CV_MINMAX);
+	}
 }
 
 

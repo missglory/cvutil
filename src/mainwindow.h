@@ -13,6 +13,8 @@ namespace Ui {
 class MainWindow;
 }
 
+
+
 class MainWindow : public QWidget
 {
     Q_OBJECT
@@ -20,6 +22,8 @@ class MainWindow : public QWidget
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+	int id;
+	QWidget* master;
 private:
     Ui::MainWindow *ui;
 	QThread* thread;
@@ -30,7 +34,12 @@ private:
 	void closeEvent(QCloseEvent *bar);
 signals:
 	void requestFrame(const QString& fileName);
+	void sendFrame(const QString& filename);
+	void sendShow();
+	void switchFrame(const int id);
 private slots:
+	void onButtonForwardClicked();
+	void onButtonBackClicked();
 	void receiveFrame(const QImage& frame);
 	void onOpenButtonClicked();
 	void receiveProcessTime(const float time);
@@ -39,6 +48,11 @@ private slots:
 	void receiveCenterDist(const double d);
 	void receiveVariance(const double d);
 	void receiveEccentricity(const double val);
+	void receiveStartFrame(const QString& filename, const int requestId);
+	void receiveShow();
 };
+
+
+
 
 #endif // MAINWINDOW_H

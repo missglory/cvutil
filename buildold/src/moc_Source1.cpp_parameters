@@ -1,0 +1,8 @@
+-IC:/Users/Admin/Documents/cmake_projects/opencv/include
+-IC:/Users/Admin/Documents/cmake_projects/opencv
+-IC:/Users/Admin/Documents/cmake_projects/opencv/build
+-DWIN32
+--compiler-flavor=msvc
+-o
+C:/Users/Admin/Documents/cmake_projects/opencv/build/src/moc_Source1.cpp
+C:/Users/Admin/Documents/cmake_projects/opencv/src/Source1.cpp

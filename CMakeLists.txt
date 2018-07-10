@@ -20,14 +20,19 @@ set (SRC
 	src/Source1.cpp
 	src/mainwindow.cpp
 	src/Worker.cpp
+	src/masterwindow.cpp
+	#src/NewMainWindow.cpp
 	#src/mainwidget.cpp
 	)
 
 set (HEADERS src/mainwindow.h
 	src/utils.h
 	src/Worker.h
+	src/masterwindow.h
+	#src/NewMainWindow.h
 	)#src/mainwidget.h)
 set (UI src/mainwindow.ui
+		src/masterwindow.ui
 	)#src/mainwidget.ui)
 
 message ("SRC " ${SRC})

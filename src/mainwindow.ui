@@ -45,6 +45,13 @@
          </property>
         </widget>
        </item>
+       <item row="5" column="1">
+        <widget class="QLabel" name="coreEccentricity">
+         <property name="text">
+          <string>0</string>
+         </property>
+        </widget>
+       </item>
        <item row="1" column="1">
         <widget class="QLabel" name="coreCenter">
          <property name="text">
@@ -59,13 +66,6 @@
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="1">
-        <widget class="QLabel" name="coreEccentricity">
-         <property name="text">
-          <string>0</string>
          </property>
         </widget>
        </item>
@@ -85,30 +85,6 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="centerTitle">
-         <property name="text">
-          <string>Center</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QLabel" name="coreDiameter">
-         <property name="text">
-          <string>0</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="QLabel" name="coreVariance">
-         <property name="text">
-          <string>0</string>
-         </property>
-        </widget>
-       </item>
        <item row="2" column="0">
         <widget class="QLabel" name="label_3">
          <property name="text">
@@ -119,6 +95,40 @@
          </property>
          <property name="margin">
           <number>1</number>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLabel" name="coreDiameter">
+         <property name="text">
+          <string>0</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="centerTitle">
+         <property name="text">
+          <string>Center</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLabel" name="coreVariance">
+         <property name="text">
+          <string>0</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="0">
+        <widget class="QLabel" name="label_20">
+         <property name="text">
+          <string>Dist to core</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
         </widget>
        </item>
@@ -136,13 +146,6 @@
          </property>
         </widget>
        </item>
-       <item row="10" column="1">
-        <widget class="QLabel" name="fiberDist">
-         <property name="text">
-          <string>0</string>
-         </property>
-        </widget>
-       </item>
        <item row="8" column="1">
         <widget class="QLabel" name="fiberCenter">
          <property name="text">
@@ -150,20 +153,23 @@
          </property>
         </widget>
        </item>
-       <item row="10" column="0">
-        <widget class="QLabel" name="label_20">
+       <item row="10" column="1">
+        <widget class="QLabel" name="fiberDist">
          <property name="text">
-          <string>Dist to core</string>
+          <string>0</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>Dist to fiber</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
-        </widget>
-       </item>
-       <item row="9" column="1">
-        <widget class="QLabel" name="fiberDiameter">
-         <property name="text">
-          <string>0</string>
+         <property name="margin">
+          <number>1</number>
          </property>
         </widget>
        </item>
@@ -181,6 +187,20 @@
          </item>
         </layout>
        </item>
+       <item row="6" column="0">
+        <widget class="Line" name="line_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="1">
+        <widget class="QLabel" name="fiberDiameter">
+         <property name="text">
+          <string>0</string>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="0">
         <widget class="QLabel" name="label_4">
          <property name="font">
@@ -197,23 +217,20 @@
          </property>
         </widget>
        </item>
-       <item row="6" column="0">
-        <widget class="Line" name="line_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_6">
+       <item row="12" column="0">
+        <widget class="QLabel" name="timeTitle">
          <property name="text">
-          <string>Dist to fiber</string>
+          <string>Time</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
-         <property name="margin">
-          <number>1</number>
+        </widget>
+       </item>
+       <item row="15" column="0">
+        <widget class="Line" name="line_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
@@ -243,20 +260,17 @@
          </property>
         </widget>
        </item>
-       <item row="12" column="0">
-        <widget class="QLabel" name="timeTitle">
+       <item row="14" column="0">
+        <widget class="QPushButton" name="buttonBack">
          <property name="text">
-          <string>Time</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          <string>&lt;</string>
          </property>
         </widget>
        </item>
-       <item row="14" column="0">
-        <widget class="Line" name="line_3">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+       <item row="14" column="1">
+        <widget class="QPushButton" name="buttonForward">
+         <property name="text">
+          <string>&gt;</string>
          </property>
         </widget>
        </item>

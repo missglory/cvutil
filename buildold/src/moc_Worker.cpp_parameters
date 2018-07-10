@@ -1,0 +1,9 @@
+-IC:/Users/Admin/Documents/cmake_projects/opencv/include
+-IC:/Qtvc/5.11.1/msvc2017_64/lib/cmake/Qt5/../../../include
+-IC:/Users/Admin/Documents/cmake_projects/opencv
+-IC:/Users/Admin/Documents/cmake_projects/opencv/build
+-DWIN32
+--compiler-flavor=msvc
+-o
+C:/Users/Admin/Documents/cmake_projects/opencv/build/src/moc_Worker.cpp
+C:/Users/Admin/Documents/cmake_projects/opencv/src/Worker.h

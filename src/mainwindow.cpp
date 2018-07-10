@@ -3,15 +3,25 @@
 #include "Worker.h"
 #include "utils.h"
 #include <QStringBuilder>
+#include "masterwindow.h"
+
+extern MasterWindow master;
+
+
 MainWindow::MainWindow(QWidget *parent):
 	QWidget(parent),
 	ui(new Ui::MainWindow),
-	next(NULL)
+	next(NULL),
+	id(-1)
 {
 	ui->setupUi(this);
 	setup();
+	show();
 }
 
+void MainWindow::receiveShow() {
+	show();
+}
 
 void MainWindow::closeEvent(QCloseEvent *bar) {
 	thread->quit();
@@ -23,6 +33,16 @@ MainWindow::~MainWindow() {
 	thread->quit();
 	thread->wait();
 }
+
+void MainWindow::onButtonBackClicked() {
+	
+	emit switchFrame(id - 1);
+}
+
+void MainWindow::onButtonForwardClicked() {
+	emit switchFrame(id + 1);
+}
+
 
 void MainWindow::setup() {
 	thread = new QThread(this);
@@ -39,9 +59,22 @@ void MainWindow::setup() {
 	connect(w, SIGNAL(sendVariance(const double)), this, SLOT(receiveVariance(const double)));
 	connect(w, SIGNAL(sendEccentricity(const double)), this, SLOT(receiveEccentricity(const double)));
 	connect(ui->buttonBack, SIGNAL(clicked(bool)), this, SLOT(onButtonBackClicked()));
+	connect(ui->buttonForward, SIGNAL(clicked(bool)), this, SLOT(onButtonForwardClicked()));
+	//connect(parentWidget(), SIGNAL(sendFrame(const QString&)), this, SLOT(receiveStartFrame(const QString&)));
+	//connect(this, SIGNAL(sendFrame(const QString&)), parentWidget(), SLOT(receiveFrame(const QString&)));
+	//connect(this, SIGNAL(switchFrame(const int)), parentWidget(), SLOT(receiveSwitchFrame(const int)));
+	//
+	//connect(this, SIGNAL(sendFrame(const QString&)), master, SLOT(receiveFrame(const QString&)));
+	//connect(this, SIGNAL(switchFrame(const int)), master, SLOT(receiveSwitchFrame(const int)));
+	//
 	worker = w;
 	thread->start();
 	emit requestFrame("../res/4.jpg");
+}
+
+void MainWindow::receiveStartFrame(const QString& filename, const int requestId) {
+	if (requestId == id)
+		emit requestFrame(filename);
 }
 
 void MainWindow::receiveCenterDist(const double d) {
@@ -90,8 +123,7 @@ void MainWindow::receiveProcessTime(const float time) {
 void MainWindow::onOpenButtonClicked() {
 	QString fileName = QFileDialog::getOpenFileName(this, tr("Choose"), "../res", tr("Images (*.jpg *.png)"));
 	if (QString::compare(fileName, QString())) {
-		//worker->signalSendFrame(fileName);
-		emit requestFrame(fileName);
+		emit sendFrame(fileName);
 	}
 }
 
