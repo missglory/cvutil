@@ -28,10 +28,12 @@ private:
 	Utils::Timer timer;
 private:
 	void process();
-	void getHistPeaks(cv::UMat const& src_gray);
+	void getHistPeaks(cv::UMat const& src_gray, int bins = 256, bool uchar = true);
 	void drawHulls(cv::UMat& src, double threshold);
 	void visualizeHist(cv::Mat& hist, const std::string& window);
 	void processMask(cv::RotatedRect& ellipse, cv::UMat& src);
+	void processCore(cv::UMat& src, cv::Point center);
+	void hough(cv::UMat& src, cv::UMat& dst, int rsmall = 0, int rbig = 0);
 signals:
 	void sendFrame(const QImage& frameProcessed);
 	void sendProcessTime(const float time);

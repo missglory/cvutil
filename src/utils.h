@@ -2,7 +2,10 @@
 #include <chrono>
 #include <thread>
 #include "opencv2/opencv.hpp"
+#define USEQT
+#ifdef USEQT
 #include <QtGui/QImage>
+#endif
 #include <iostream>
 #include <sstream>
 
@@ -32,6 +35,7 @@ inline void LogCall(const char* func, const char* file, int line, FILE* fd = NUL
 
 namespace Utils {
 	//cv::Mat qimage_to_mat_ref(QImage &img, QImage::Format format);
+#ifdef USEQT
 	inline cv::Mat qimage_to_mat_ref(QImage &img, QImage::Format format)
 	{
 		return cv::Mat(img.height(), img.width(),
@@ -43,6 +47,8 @@ namespace Utils {
 		}
 		return QImage((const unsigned char*)img.data, img.cols, img.rows, format);
 	}
+#endif
+
 	struct Timer;
 
 	inline double countVariance(std::vector <double>& v) {
@@ -55,6 +61,7 @@ namespace Utils {
 		});
 		return accum / (v.size() - 1);
 	}
+
 
 	inline double countVariance(std::vector<cv::Point>& contour, cv::Point center) {
 		std::vector<double> r(contour.size());
@@ -91,19 +98,32 @@ namespace Utils {
 		return maxCountourIdx;
 	}
 	inline void toFloat(cv::UMat& src) {
-		src.convertTo(src, CV_32F);
+		src.convertTo(src, CV_32FC1, 1./255);
 	}
 	inline void toUchar(cv::UMat& src) {
-		src.convertTo(src, CV_8U);
+		src.convertTo(src, CV_8UC1, 255);
 	}
 	inline void findContours(cv::UMat& src, std::vector<std::vector<cv::Point> >& contours, std::vector<cv::Vec4i>& hierarchy) {
 		contours.clear();
 		hierarchy.clear();
 		cv::findContours(src, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0));
 	}
-	inline void distance(cv::UMat& src, cv::UMat& dst) {
-		cv::distanceTransform(src, dst, CV_DIST_L1, 3);
-		cv::normalize(dst, dst, 0., 1., CV_MINMAX);
+	inline void distance(cv::UMat& src, cv::UMat& dst, bool squared = true) {
+		cv::distanceTransform(src, dst, CV_DIST_L2, 3);
+		if (squared)
+			cv::multiply(dst, dst, dst);
+		//cv::normalize(dst, dst, 0., 1., CV_MINMAX);
+	}
+	inline float distance(cv::Point f, cv::Point s) {
+		int dx = (f.x - s.x);
+		int dy = (f.y - s.y);
+		return std::sqrt(dx * dx + dy * dy);
+	}
+
+	inline float Eccentricity(cv::RotatedRect ellipse) {
+		float maxs = std::max(ellipse.size.height, ellipse.size.width);
+		float mins = std::min(ellipse.size.height, ellipse.size.width);
+		return std::sqrt(maxs * maxs - mins * mins) / maxs;
 	}
 }
 
@@ -111,6 +131,10 @@ namespace Utils {
 struct Utils::Timer {
 	std::chrono::time_point<std::chrono::steady_clock> startp, endp;
 	std::chrono::duration<float> duration;
+	
+	Timer() {
+		startp = std::chrono::high_resolution_clock::now();
+	}
 
 	void start() {
 		startp = std::chrono::high_resolution_clock::now();
@@ -133,6 +157,7 @@ struct Utils::Timer {
 		return duration.count() * 1000.0f;
 	}
 };
+
 
 
 

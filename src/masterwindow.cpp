@@ -6,7 +6,7 @@ MasterWindow::MasterWindow(QWidget *parent) :
     ui(new Ui::MasterWindow)
 {
 	addWindow();
-	emit sendSetup("../res/1.jpg", current);
+	emit sendSetup("../res/6.jpg", current);
 }
 
 void MasterWindow::receiveFrame(const QString& fileName) {

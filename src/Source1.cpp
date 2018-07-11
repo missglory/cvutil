@@ -8,6 +8,8 @@
 
 const int W = 800;
 const int H = 500;
+cv::RNG rng(12345);
+
 
 int main(int argc, char *argv[]) {
 	FILE* dbglog = fopen("log.txt", "w");
