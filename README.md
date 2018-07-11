@@ -1,6 +1,6 @@
 # cvutil
 ### Example
-<img src="res/window.jpg" alt="Example" height="300" width="500"/>
+<img src="res/window1.jpg" alt="Example" height="300" width="500"/>
 
 ## Algorithm briefly
 <img src="res/imshows.jpg" alt="Example"/>
