@@ -33,14 +33,7 @@ void MasterWindow::receiveSwitchFrame(const int id) {
 	if (id >= 0 && id < windows.size())
 	{
 		windows[current]->hide();
-		windows[current]->setParent(0);
-		QWidget* central = centralWidget();
-		central->setParent(0);
-		central->hide();
-		central->deleteLater();
-		setCentralWidget(windows[id]);
 		windows[id]->show();
-		windows[id]->setParent(this);
 		current = id;
 	}
 }

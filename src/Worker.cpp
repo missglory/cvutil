@@ -14,10 +14,9 @@ Worker::~Worker(){}
 #define getmatw getMat(cv::ACCESS_WRITE)
 #define getmatrw getMat(cv::ACCESS_RW)
 
-static const float DIST_THRESH = .3;
 
 
-#define IMSHOWS
+#define IMSHOWS_
 
 #ifdef IMSHOWS
 #define imshowdef(x) cv::namedWindow((#x), CV_WINDOW_FREERATIO); cv::imshow(#x, (x))
@@ -73,10 +72,10 @@ void Worker::getHistPeaks(cv::UMat const& src_gray, int bins, bool uchar) {
 
 void Worker::process() {
 	
-	//getHistPeaks(frames[1]);
-	//drawHulls(frames[1], (2 * histPeaks[0].pos.y + histPeaks[1].pos.y) / 3);
+	getHistPeaks(frames[1]);
+	drawHulls(frames[1], (2 * histPeaks[0].pos.y + histPeaks[1].pos.y) / 3);
 	//drawHulls(frames[1], histPeaks[0].pos.y + 10);
-	drawHulls(frames[1], 40);
+	//drawHulls(frames[1], 40);
 }
 
 
@@ -100,7 +99,8 @@ void Worker::visualizeHist(cv::Mat& hist, const std::string& window) {}
 #endif
 
 void Worker::drawHulls(cv::UMat& src, double threshold) {
-	Utils::Timer disttimer;
+	
+	Utils::Timer disttimer, starttimer;
 	
 	//cv::bilateralFilter(src, src, 10, 30, 10);
 	std::vector<std::vector<cv::Point> > contours;
@@ -125,19 +125,11 @@ void Worker::drawHulls(cv::UMat& src, double threshold) {
 	cv::drawContours(threshhull, hulls, 0, cv::Scalar::all(255), -1);
 
 	//cv::morphologyEx(threshold_output1, threshold_output1, cv::MORPH_CLOSE, kernel);
-	
-
-
-
-
-	
-
 
 
 	imshowdef(threshhull);
 	imshowdef(threshold_output1);
-	
-	cv::UMat dist, distthresh;
+	cv::UMat dist;
 
 	//Utils::distance(threshold_output1, dist, false);
 	Utils::distance(threshhull, dist, false);
@@ -145,44 +137,24 @@ void Worker::drawHulls(cv::UMat& src, double threshold) {
 
 	cv::Point centerBig;
 	double centerVal;
+	
+	
 	cv::minMaxLoc(dist, 0, &centerVal, 0, &centerBig);
-	
-
 	disttimer.end();
-
 	
-
-
-
 	
-	cv::circle(frames[0], centerBig, 5, cv::Scalar(255, 0, 0), -1);
-
-	cv::normalize(dist, dist, 0., 1., CV_MINMAX);
-
-
-	imshowdef(dist);
-	
-	//cv::circle(frames[0], centerBig, centerVal, cv::Scalar(255,255,255), 2);
-
-	imshowdef(frames[0]);
 
 	Utils::toFloat(threshold_output1);
 
-	//double threshmax, threshmin;
-	//cv::minMaxLoc(threshold_output1, &threshmin, &threshmax, 0, 0);
-
-
-
-
-
 	static const int numRotations = 3;
-	static cv::Mat rotate[numRotations];
+	static cv::UMat rotate[numRotations];
 	for (size_t i = 0; i < numRotations; i++)
 	{
 		double angle = 360.0 / (numRotations) / 5;
 		angle *= i;
-		rotate[i] = cv::getRotationMatrix2D(centerBig, angle, 1);// .getUMat(cv::ACCESS_RW);
+		rotate[i] = cv::getRotationMatrix2D(centerBig, angle, 1).getUMat(cv::ACCESS_RW);
 	}
+
 
 	cv::UMat rotations[numRotations];
 
@@ -197,6 +169,8 @@ void Worker::drawHulls(cv::UMat& src, double threshold) {
 		//std::cout << rsummin << " " << rsummax << "\n";
 	}
 
+
+
 	cv::UMat rsum = cv::UMat::zeros(src.size(), CV_32FC1);
 	for (size_t i = 0; i < numRotations; i++)
 	{
@@ -209,8 +183,9 @@ void Worker::drawHulls(cv::UMat& src, double threshold) {
 
 	//cv::normalize(rsum, rsum, 0., 1., CV_MINMAX);
 	cv::multiply(rsum, 1. / numRotations, rsum);
-
-
+	
+	
+	
 	Utils::toUchar(rsum);
 	imshownamed(rsum, "rsumb");
 	cv::threshold(rsum, rsum, 150, 255, CV_THRESH_BINARY);
@@ -225,11 +200,15 @@ void Worker::drawHulls(cv::UMat& src, double threshold) {
 	float drawr[1];
 	cv::Point2f drawc[1];
 	
-	cv::minEnclosingCircle(hulls[0], drawc[0], drawr[0]);
-	//cv::circle(frames[0], drawc[0], drawr[0], cv::Scalar(255,255,255), 3);
+	//cv::minEnclosingCircle(hulls[0], drawc[0], drawr[0]);
+	//cv::circle(frames[0], drawc[0], drawr[0], cv::Scalar(255,255,255), 1);
 	//cv::drawContours(src, hulls, 0, cv::Scalar(255, 255, 255), 2);
 	minEllipse[0] = cv::fitEllipse(hulls[0]);
-	cv::ellipse(frames[0], minEllipse[0], cv::Scalar(255, 255, 255), 2);
+	cv::ellipse(frames[0], minEllipse[0], cv::Scalar(255, 55, 55), 2);
+
+
+
+
 
 	emit sendCenter(minEllipse[0].center.x, minEllipse[0].center.y, 0);
 	emit sendDiameter(std::max(minEllipse[0].size.height, minEllipse[0].size.width), 0);
@@ -245,13 +224,21 @@ void Worker::drawHulls(cv::UMat& src, double threshold) {
 
 
 void Worker::processCore(cv::UMat& src, cv::Point center) {
-	int sizeroi = 200;
+	Utils::Timer coretimer;
+	
+	int sizeroi = 180;
 
 	cv::Rect roirect(center.x - sizeroi, center.y - sizeroi, 2 * sizeroi, 2 * sizeroi);
 	cv::UMat roi = src(roirect);
 
+	cv::GaussianBlur(roi, roi, cv::Size(5, 5), 1, 1);
+
+
+	//hough(roi, roi, 80, 150);
+
+
 	imshowdef(roi);
-	//getHistPeaks(roi);
+	getHistPeaks(roi);
 
 	cv::UMat thresh;
 
@@ -274,12 +261,13 @@ void Worker::processCore(cv::UMat& src, cv::Point center) {
 	minel.center.x += center.x - sizeroi;
 	minel.center.y += center.y - sizeroi;
 
-	cv::ellipse(frames[0], minel, cv::Scalar::all(255));
+	cv::ellipse(frames[0], minel, cv::Scalar(55, 55, 255), 2);
 	imshowdef(frames[0]);
 
 	emit sendCenter(minel.center.x, minel.center.y, 1);
 	emit sendDiameter(std::max(minel.size.height, minel.size.width), 1);
 	emit sendCenterDist(Utils::distance(minel.center, center));
+	coretimer.end();
 	emit sendEccentricity(Utils::Eccentricity(minel));
 }
 
@@ -296,18 +284,21 @@ void Worker::receiveGrabFrame(const QString& fileName) {
 	emit sendFrame(Utils::mat_to_qimage(frames[0].getMat(cv::ACCESS_RW), QImage::Format_RGB888));
 }
 
+
+
+
 void Worker::hough(cv::UMat& src, cv::UMat& dst, int rsmall, int rbig) {
-	std::vector<cv::Vec3f> circles;
-	cv::HoughCircles(src, circles, cv::HOUGH_GRADIENT, 1, 5,
-		90, 33, rsmall, rbig // change the last two parameters
-					   // (min_radius & max_radius) to detect larger circles
-	);
-	for (size_t i = 0; i < circles.size(); i++)
-	{
-		cv:: Vec3i c = circles[i];
-		cv::circle(dst, cv::Point(c[0], c[1]), c[2], cv::Scalar(0, 0, 255), 5, cv::LINE_AA);
-		cv::circle(dst, cv::Point(c[0], c[1]), 2, cv::Scalar(0, 255, 0), 5, cv::LINE_AA);
-	}
+	//std::vector<cv::Vec3f> circles;
+	//cv::HoughCircles(src, circles, cv::HOUGH_GRADIENT, 1, 5,
+	//	90, 60, rsmall, rbig // change the last two parameters
+	//				   // (min_radius & max_radius) to detect larger circles
+	//);
+	//for (size_t i = 0; i < circles.size(); i++)
+	//{
+	//	cv:: Vec3i c = circles[i];
+	//	cv::circle(dst, cv::Point(c[0], c[1]), c[2], cv::Scalar(0, 0, 255), 5, cv::LINE_AA);
+	//	cv::circle(dst, cv::Point(c[0], c[1]), 2, cv::Scalar(0, 255, 0), 5, cv::LINE_AA);
+	//}
 }
 
 
