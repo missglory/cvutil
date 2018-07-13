@@ -28,7 +28,7 @@
      <item>
       <widget class="QLabel" name="labelView">
        <property name="text">
-        <string>TextLabel</string>
+        <string>Open file</string>
        </property>
       </widget>
      </item>

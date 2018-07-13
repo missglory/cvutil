@@ -119,7 +119,7 @@ void MainWindow::receiveProcessTime(const float time) {
 
 
 void MainWindow::onOpenButtonClicked() {
-	QString fileName = QFileDialog::getOpenFileName(this, tr("Choose"), "../res", tr("Images (*.jpg *.png)"));
+	QString fileName = QFileDialog::getOpenFileName(this, tr("Choose"), "/res", tr("Images (*.jpg *.png)"));
 	if (QString::compare(fileName, QString())) {
 		emit sendFrame(fileName);
 	}
